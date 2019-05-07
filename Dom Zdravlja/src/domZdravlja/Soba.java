@@ -12,7 +12,7 @@ public class Soba {
 		this.naziv = "";
 		this.domzdravlja = new DomZdravlja();
 	}
-	/*
+	
 	public Soba(String id, String naziv, DomZdravlja domzdravlja) {
 		super();
 		this.id = id;
@@ -25,7 +25,7 @@ public class Soba {
 		this.naziv = original.naziv;
 		this.domzdravlja = original.domzdravlja;
 	}
-	*/
+	
 	public String getId() {
 		return id;
 	}
@@ -44,10 +44,10 @@ public class Soba {
 	public void setDomzdravlja(DomZdravlja domzdravlja) {
 		this.domzdravlja = domzdravlja;
 	}
-	/*
+	
 	@Override
 	public String toString() {
 		return "Soba [id=" + id + ", naziv=" + naziv + ", domzdravlja=" + domzdravlja + "]";
 	}
-	*/
+	
 }

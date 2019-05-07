@@ -54,6 +54,80 @@ public class Pregledi {
 		this.soba = original.soba;
 		this.status = original.status;
 	}
+	
+	
+	public double getZatrazenDatum() {
+		return zatrazenDatum;
+	}
+
+	public void setZatrazenDatum(double zatrazenDatum) {
+		this.zatrazenDatum = zatrazenDatum;
+	}
+
+	public double getPocetakDatum() {
+		return pocetakDatum;
+	}
+
+	public void setPocetakDatum(double pocetakDatum) {
+		this.pocetakDatum = pocetakDatum;
+	}
+
+	public double getKrajDatum() {
+		return krajDatum;
+	}
+
+	public void setKrajDatum(double krajDatum) {
+		this.krajDatum = krajDatum;
+	}
+
+	public String getOpis() {
+		return opis;
+	}
+
+	public void setOpis(String opis) {
+		this.opis = opis;
+	}
+
+	public Pacijent getPacijent() {
+		return pacijent;
+	}
+
+	public void setPacijent(Pacijent pacijent) {
+		this.pacijent = pacijent;
+	}
+
+	public MedicinskaSestra getSestra() {
+		return sestra;
+	}
+
+	public void setSestra(MedicinskaSestra sestra) {
+		this.sestra = sestra;
+	}
+
+	public Lekar getLekar() {
+		return lekar;
+	}
+
+	public void setLekar(Lekar lekar) {
+		this.lekar = lekar;
+	}
+
+	public Soba getSoba() {
+		return soba;
+	}
+
+	public void setSoba(Soba soba) {
+		this.soba = soba;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "Pregledi [zatrazenDatum=" + zatrazenDatum + ", pocetakDatum=" + pocetakDatum + ", krajDatum="
