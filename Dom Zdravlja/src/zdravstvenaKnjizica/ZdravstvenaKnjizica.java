@@ -1,19 +1,21 @@
 package zdravstvenaKnjizica;
 
+import java.util.Date;
+
 public class ZdravstvenaKnjizica {
 
 	private String id;
-	private double datumIsteka;
-	private String kategorijaosiguranja;
+	private Date datumIsteka;
+	private KategorijaOsiguranja kategorijaosiguranja;
 	
 	
 	public ZdravstvenaKnjizica() {
 		this.id = "";
-		this.datumIsteka = 1900;
-		this.kategorijaosiguranja = "";
+		this.datumIsteka = null;
+		this.kategorijaosiguranja = null;
 	}
-	public ZdravstvenaKnjizica(String id, double datumIsteka, 
-			String kategorijaosiguranja) {
+	public ZdravstvenaKnjizica(String id, Date datumIsteka, 
+			KategorijaOsiguranja kategorijaosiguranja) {
 		super();
 		this.id = id;
 		this.datumIsteka = datumIsteka;
@@ -24,22 +26,23 @@ public class ZdravstvenaKnjizica {
 		this.datumIsteka = original.datumIsteka;
 		this.kategorijaosiguranja = original.kategorijaosiguranja;
 	}
+	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public double getDatumIsteka() {
+	public Date getDatumIsteka() {
 		return datumIsteka;
 	}
-	public void setDatumIsteka(double datumIsteka) {
+	public void setDatumIsteka(Date datumIsteka) {
 		this.datumIsteka = datumIsteka;
 	}
-	public String getKategorijaosiguranja() {
+	public KategorijaOsiguranja getKategorijaosiguranja() {
 		return kategorijaosiguranja;
 	}
-	public void setKategorijaosiguranja(String kategorijaosiguranja) {
+	public void setKategorijaosiguranja(KategorijaOsiguranja kategorijaosiguranja) {
 		this.kategorijaosiguranja = kategorijaosiguranja;
 	}
 	@Override

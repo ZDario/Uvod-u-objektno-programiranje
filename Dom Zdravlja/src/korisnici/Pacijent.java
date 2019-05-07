@@ -13,16 +13,11 @@ public class Pacijent extends Korisnici {
 	}
 	public Pacijent(String ime, String prezime, String jmbg, 
 			String adresa, String telefon, String korisnickoime, String lozinka,
-			String pol, String uloga,
+			Pol pol, Uloga uloga,
 			Lekar izabraniLekar, ZdravstvenaKnjizica knjizica) {
 		super(ime,prezime,jmbg,adresa,telefon,korisnickoime,lozinka,pol,uloga);
 		this.izabraniLekar = izabraniLekar;
 		this.knjizica = knjizica;
-	}
-	public Pacijent(Pacijent original) {
-		super(original);
-		this.izabraniLekar = original.izabraniLekar;
-		this.knjizica = original.knjizica;
 	}
 	public Lekar getIzabraniLekar() {
 		return izabraniLekar;

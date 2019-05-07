@@ -1,6 +1,6 @@
 package korisnici;
 
-import domZdravlja.DomZdravlja;
+import domZdravlja.SluzbeDomaZdravlja;
 
 public class Lekar extends Zaposlen {
 	
@@ -11,17 +11,12 @@ public class Lekar extends Zaposlen {
 	}
 	public Lekar(String ime, String prezime, String jmbg, 
 			String adresa, String telefon, String korisnickoime, String lozinka,
-			String pol, String uloga,
-			double plata, String sluzba, 
-			DomZdravlja domzdravlja, String specijalizacija) {
+			Pol pol, Uloga uloga,
+			double plata, SluzbeDomaZdravlja sluzba, String specijalizacija) {
 		super(ime,prezime,jmbg,adresa,telefon,korisnickoime,lozinka,pol,uloga,
-				plata,sluzba,domzdravlja);
+				plata,sluzba);
 		this.specijalizacija = specijalizacija;
 	}
-	public Lekar(Lekar original) {
-		this.specijalizacija = original.specijalizacija;
-	}
-	
 	public String getSpecijalizacija() {
 		return specijalizacija;
 	}
@@ -30,11 +25,18 @@ public class Lekar extends Zaposlen {
 	}
 	@Override
 	public String toString() {
-		return "Lekar [specijalizacija=" + specijalizacija + ", plata=" + plata + ", sluzba=" + sluzba
-				+ ", domzdravlja=" + domzdravlja + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg
-				+ ", adresa=" + adresa + ", telefon=" + telefon + ", korisnickoime=" + korisnickoime + ", lozinka="
-				+ lozinka + ", pol=" + pol + ", uloga=" + uloga + "]";
+		return "Ime: " + this.ime 
+				+ "\nPrezime: " + this.prezime 
+				+ "\nJMBG: " + this.jmbg 
+				+ "\nAdresa: " + this.adresa
+				+"\nTelefon: " + this.telefon
+				+"\nKorisnicko ime: " + this.korisnickoime
+				+"\nLozinka: " + this.lozinka
+				+"\nPol: " + this.pol
+				+"\nUloga: " + this.uloga
+				+"\nPlata: " + this.plata
+				+"\nSluzba: " + this.sluzba
+				+"\nSpecijalizacija: " + this.specijalizacija;
 	}
-
-
+	
 }

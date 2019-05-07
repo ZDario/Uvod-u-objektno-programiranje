@@ -9,8 +9,8 @@ public abstract class Korisnici {
 	protected String telefon;
 	protected String korisnickoime;
 	protected String lozinka;
-	protected String pol;
-	protected String uloga;
+	protected Pol pol;
+	protected Uloga uloga;
 	
 	public Korisnici() {
 		this.ime = "";
@@ -20,12 +20,12 @@ public abstract class Korisnici {
 		this.telefon = "";
 		this.korisnickoime = "";
 		this.lozinka = "";
-		this.pol = "";
-		this.uloga = "";
+		this.pol = null;
+		this.uloga = null;
 	}
 
 	public Korisnici(String ime, String prezime, String jmbg, String adresa, String telefon, String korisnickoime,
-			String lozinka, String pol, String uloga) {
+			String lozinka, Pol pol, Uloga uloga) {
 		super();
 		this.ime = ime;
 		this.prezime = prezime;
@@ -37,18 +37,7 @@ public abstract class Korisnici {
 		this.pol = pol;
 		this.uloga = uloga;
 	}
-	public Korisnici(Korisnici original) {
-		this.ime = original.ime;
-		this.prezime = original.prezime;
-		this.jmbg = original.jmbg;
-		this.adresa = original.adresa;
-		this.telefon = original.telefon;
-		this.korisnickoime = original.korisnickoime;
-		this.lozinka = original.lozinka;
-		this.pol = original.pol;
-		this.uloga = original.uloga;
-	}
-	
+
 	public String getIme() {
 		return ime;
 	}
@@ -105,28 +94,19 @@ public abstract class Korisnici {
 		this.lozinka = lozinka;
 	}
 
-	public String getPol() {
+	public Pol getPol() {
 		return pol;
 	}
 
-	public void setPol(String pol) {
+	public void setPol(Pol pol) {
 		this.pol = pol;
 	}
 
-	public String getUloga() {
+	public Uloga getUloga() {
 		return uloga;
 	}
 
-	public void setUloga(String uloga) {
+	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
 	}
-
-	@Override
-	public String toString() {
-		return "Korisnici [ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", adresa=" + adresa + ", telefon="
-				+ telefon + ", korisnickoime=" + korisnickoime + ", lozinka=" + lozinka + ", pol=" + pol + ", uloga="
-				+ uloga + "]";
-	}
-
-	
 }

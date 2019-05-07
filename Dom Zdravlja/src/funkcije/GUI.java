@@ -6,14 +6,21 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import korisnici.Lekar;
 import korisnici.MedicinskaSestra;
 import korisnici.Pacijent;
+import korisnici.Pol;
+import korisnici.Uloga;
 import domZdravlja.DomZdravlja;
+import domZdravlja.SluzbeDomaZdravlja;
 import domZdravlja.Soba;
 import pregledi.Pregledi;
+import zdravstvenaKnjizica.KategorijaOsiguranja;
 import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
 
@@ -51,15 +58,14 @@ public class GUI {
 				String telefon = split[4];
 				String korisnickoime = split[5];
 				String lozinka = split[6];
-				String pol = split[7];
-				String uloga = split[8];
+				Pol pol = Pol.valueOf(split[7]);
+				Uloga uloga = Uloga.valueOf(split[8]);
 				String plataString = split[9];
 				double plata = Double.parseDouble(plataString);
-				String sluzba = split[10];
-				DomZdravlja domzdravlja = split[11];
-				String specijalizacija = split[12];
+				SluzbeDomaZdravlja sluzba = SluzbeDomaZdravlja.valueOf(split[10]);
+				String specijalizacija = split[11];
 				Lekar lekar = new Lekar(ime, prezime, jmbg, adresa, telefon, korisnickoime,lozinka, 
-						pol, uloga, plata, sluzba, domzdravlja ,specijalizacija);
+						pol, uloga, plata, sluzba ,specijalizacija);
 				lekari.add(lekar);
 			}
 			reader.close();
@@ -81,14 +87,13 @@ public class GUI {
 				String telefon = split[4];
 				String korisnickoime = split[5];
 				String lozinka = split[6];
-				String pol = split[7];
-				String uloga = split[8];
+				Pol pol = Pol.valueOf(split[7]);
+				Uloga uloga = Uloga.valueOf(split[8]);
 				String plataString = split[9];
 				double plata = Double.parseDouble(plataString);
-				String sluzba = split[10];
-				DomZdravlja domzdravlja = split[11];
+				SluzbeDomaZdravlja sluzba = SluzbeDomaZdravlja.valueOf(split[10]);
 				MedicinskaSestra sestra = new MedicinskaSestra(ime, prezime, jmbg, adresa, telefon, korisnickoime,lozinka, 
-						pol, uloga, plata, sluzba, domzdravlja);
+						pol, uloga, plata, sluzba);
 				sestre.add(sestra);
 			}
 			reader.close();
@@ -112,7 +117,7 @@ public class GUI {
 				String lozinka = split[6];
 				String pol = split[7];
 				String uloga = split[8];
-				String izabraniLekar = split[9];
+				Lekar izabraniLekar = nadjiLekara(split[9]);
 				String knjizica = split[10];
 				Pacijent pacijent = new Pacijent(ime, prezime, jmbg, adresa, telefon, korisnickoime,lozinka, 
 						pol, uloga, izabraniLekar,knjizica);
@@ -123,6 +128,16 @@ public class GUI {
 			e.printStackTrace();
 		}
 	}
+	public Lekar nadjiLekara(String korisnickoime) {
+		for (Lekar lekar : lekari) {
+			if (lekar.getKorisnickoime().equals(korisnickoime)) {
+				return lekar;
+			}
+		}
+		return null;
+	}
+	
+	
 	
 	public void ucitajZdravstveneKnjizice(String imeFajla) {
 		try {
@@ -132,9 +147,10 @@ public class GUI {
 			while ((line = reader.readLine()) != null) {
 				String[] split = line.split("\\|");
 				String id = split[0];
-				String datumIstekaString = split[1];;
-				double datumIsteka = Double.parseDouble(datumIstekaString);
-				String kategorijaosiguranja = split[2];
+				String string = split[1];
+				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+				Date datumIsteka = format.parse(string);
+				KategorijaOsiguranja kategorijaosiguranja = KategorijaOsiguranja.valueOf(split[2]);
 				ZdravstvenaKnjizica knjizica = new ZdravstvenaKnjizica(id,datumIsteka,kategorijaosiguranja);
 				knjizice.add(knjizica);
 			}
