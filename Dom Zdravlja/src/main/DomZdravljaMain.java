@@ -1,18 +1,20 @@
 package main;
 
-import korisnici.Lekar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+import korisnici.Lekar;
 import zdravstvenaKnjizica.KategorijaOsiguranja;
 import korisnici.MedicinskaSestra;
 import korisnici.Pacijent;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import domZdravlja.DomZdravlja;
 import pregledi.Pregledi;
 import zdravstvenaKnjizica.ZdravstvenaKnjizica;
+import korisnici.Pol;
+import korisnici.Uloga;
+import domZdravlja.SluzbeDomaZdravlja;
 
 
 
@@ -37,11 +39,31 @@ public class DomZdravljaMain {
 		ispisiSvePodatke(domzdravlja);
 		System.out.println("----------------------------------------------");
 		
-		Date date2 = new Calendar(dd-MM-yyyy).getTime();
-		KategorijaOsiguranja kategorijaosiguranja = KategorijaOsiguranja.valueOf("Prva");
-		ZdravstveneKnjizica testKnjizica = new ZdravstvenaKnjizica ("234", date2(), new ArrayList<KategorijaOsiguranja>());
-		testKnjizica.getKategorijaOsiguranja().add(testKnjizica);
+		
+		System.out.println("Datum dodavanja nove knjizice");
+		Date date2 = Calendar.getInstance().getTime();  
+		DateFormat dateFormat = new SimpleDateFormat("15-06-2019");  
+		String strDate = dateFormat.format(date2); 
+		System.out.println(strDate);
+		KategorijaOsiguranja kat = KategorijaOsiguranja.Prva;
+		ZdravstvenaKnjizica testKnjizica = new ZdravstvenaKnjizica ("234", date2, kat);
 		domzdravlja.dodajZdravstvenaKnjizicu(testKnjizica);
+		
+		
+		System.out.println("Dodavanje novog Lekara");
+		Pol pol1 = Pol.Zenski;
+		Uloga uloga1 = Uloga.Lekar;
+		SluzbeDomaZdravlja sluzba1 = SluzbeDomaZdravlja.Sluzba_Zdravstvene_Zastite_Dece;
+		Lekar testLekar = new Lekar ("Marina","Marinkovic","897234","Cara Dusana 102","0602497592","M.Marinkovic","325908m",pol1,uloga1,57000.00,sluzba1,"Doktor medicine");
+		domzdravlja.dodajLekara(testLekar);
+		
+		Pol pol2 = Pol.Zenski;
+		Uloga uloga2 = Uloga.Medicinska_Sestra;
+		SluzbeDomaZdravlja sluzba2 = SluzbeDomaZdravlja.Sluzba_Pravno_Ekonomski_Poslova;
+		System.out.println("Dodavanje nove Medicinske sestre");
+		MedicinskaSestra testSestra = new MedicinskaSestra("Jovana","Jovanovic","328957","Janka Cmelika 52","0643497201","J.Jovanovic","672316j",pol2,uloga2,45000.00,sluzba2);
+		domzdravlja.dodajMedicinskaSestru(testSestra);
+		
 		
 		
 		System.out.println("Snimanje dodanih podataka...");

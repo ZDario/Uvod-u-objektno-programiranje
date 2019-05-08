@@ -286,7 +286,7 @@ public class DomZdravlja {
 						+ sestra.getJmbg() + "|" + sestra.getAdresa() + "|"
 						+ sestra.getTelefon() + "|" + sestra.getKorisnickoime() + "|"
 						+ sestra.getLozinka() + "|" + sestra.getPol() + "|" + sestra.getUloga() + "|"
-						+ sestra.getPlata() + "|" + sestra.getSluzba() + "|" ;
+						+ sestra.getPlata() + "|" + sestra.getSluzba() + "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
