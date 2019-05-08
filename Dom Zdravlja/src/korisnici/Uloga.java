@@ -1,7 +1,7 @@
 package korisnici;
 
 public enum Uloga {
-	MedicinskaSestra,
+	Medicinska_Sestra,
 	Lekar,
 	Pacijent
 }

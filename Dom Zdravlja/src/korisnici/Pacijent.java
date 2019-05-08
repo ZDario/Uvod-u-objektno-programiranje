@@ -33,8 +33,16 @@ public class Pacijent extends Korisnici {
 	}
 	@Override
 	public String toString() {
-		return "Pacijent [izabraniLekar=" + izabraniLekar + ", knjizica=" + knjizica + ", ime=" + ime + ", prezime="
-				+ prezime + ", jmbg=" + jmbg + ", adresa=" + adresa + ", telefon=" + telefon + ", korisnickoime="
-				+ korisnickoime + ", lozinka=" + lozinka + "]";
+		return "Ime: " + this.ime 
+				+ "\nPrezime: " + this.prezime 
+				+ "\nJMBG: " + this.jmbg 
+				+ "\nAdresa: " + this.adresa
+				+"\nTelefon: " + this.telefon
+				+"\nKorisnicko ime: " + this.korisnickoime
+				+"\nLozinka: " + this.lozinka
+				+"\nPol: " + this.pol
+				+"\nUloga: " + this.uloga
+				+"\nIzabrani Lekar: " + this.izabraniLekar
+				+"\nID Knjizice: " + this.knjizica;
 	}
 }

@@ -4,34 +4,29 @@ import java.util.Date;
 
 public class ZdravstvenaKnjizica {
 
-	private String id;
+	private String ident;
 	private Date datumIsteka;
 	private KategorijaOsiguranja kategorijaosiguranja;
 	
 	
 	public ZdravstvenaKnjizica() {
-		this.id = "";
+		this.ident = "";
 		this.datumIsteka = null;
 		this.kategorijaosiguranja = null;
 	}
-	public ZdravstvenaKnjizica(String id, Date datumIsteka, 
+	public ZdravstvenaKnjizica(String ident, Date datumIsteka, 
 			KategorijaOsiguranja kategorijaosiguranja) {
 		super();
-		this.id = id;
+		this.ident = ident;
 		this.datumIsteka = datumIsteka;
 		this.kategorijaosiguranja = kategorijaosiguranja;
 	}
-	public ZdravstvenaKnjizica(ZdravstvenaKnjizica original) {
-		this.id = original.id;
-		this.datumIsteka = original.datumIsteka;
-		this.kategorijaosiguranja = original.kategorijaosiguranja;
-	}
 	
-	public String getId() {
-		return id;
+	public String getIdent() {
+		return ident;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setId(String ident) {
+		this.ident = ident;
 	}
 	public Date getDatumIsteka() {
 		return datumIsteka;
@@ -47,9 +42,8 @@ public class ZdravstvenaKnjizica {
 	}
 	@Override
 	public String toString() {
-		return "ZdravstvenaKnjizica [id=" + id + ", datumIsteka=" + datumIsteka + ", kategorijaosiguranja="
-				+ kategorijaosiguranja + "]";
+		return "ID: " + this.ident 
+				+ "\nDatum isteka: " + this.datumIsteka
+				+ "\nKategorija osiguranja: " + this.kategorijaosiguranja;
 	}
-	
-
 }
