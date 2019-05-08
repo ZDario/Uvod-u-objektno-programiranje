@@ -1,11 +1,20 @@
 package main;
 
 import korisnici.Lekar;
+
+import zdravstvenaKnjizica.KategorijaOsiguranja;
 import korisnici.MedicinskaSestra;
 import korisnici.Pacijent;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import domZdravlja.DomZdravlja;
 import pregledi.Pregledi;
 import zdravstvenaKnjizica.ZdravstvenaKnjizica;
+
+
 
 public class DomZdravljaMain {
 	private static String LEKARI_FAJL = "Lekari";
@@ -28,7 +37,11 @@ public class DomZdravljaMain {
 		ispisiSvePodatke(domzdravlja);
 		System.out.println("----------------------------------------------");
 		
-		
+		Date date2 = new Calendar(dd-MM-yyyy).getTime();
+		KategorijaOsiguranja kategorijaosiguranja = KategorijaOsiguranja.valueOf("Prva");
+		ZdravstveneKnjizica testKnjizica = new ZdravstvenaKnjizica ("234", date2(), new ArrayList<KategorijaOsiguranja>());
+		testKnjizica.getKategorijaOsiguranja().add(testKnjizica);
+		domzdravlja.dodajZdravstvenaKnjizicu(testKnjizica);
 		
 		
 		System.out.println("Snimanje dodanih podataka...");

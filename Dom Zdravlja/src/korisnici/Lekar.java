@@ -25,7 +25,8 @@ public class Lekar extends Zaposlen {
 	}
 	@Override
 	public String toString() {
-		return "Ime: " + this.ime 
+		return "LEKAR"
+				+"\nIme: " + this.ime 
 				+ "\nPrezime: " + this.prezime 
 				+ "\nJMBG: " + this.jmbg 
 				+ "\nAdresa: " + this.adresa

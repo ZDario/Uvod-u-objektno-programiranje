@@ -83,7 +83,8 @@ public class Pregledi {
 	}
 	@Override
 	public String toString() {
-		return "Datum: " + this.zatrazenDatum 
+		return "PREGLED"
+				+"\nDatum: " + this.zatrazenDatum 
 				+ "\nKratak opis pregleda: " + this.opis
 				+ "\nPacijent: " + this.pacijent
 				+ "\nLekar: " + this.lekar

@@ -4,5 +4,5 @@ public enum StatusPregleda {
 	Zatrazen,
 	Zakazan,
 	Otkazan,
-	Zavrsen
+	Zavrsen;
 }

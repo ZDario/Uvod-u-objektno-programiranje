@@ -42,7 +42,8 @@ public class ZdravstvenaKnjizica {
 	}
 	@Override
 	public String toString() {
-		return "ID: " + this.ident 
+		return "ZDRAVSTVENA KNJIZICA"
+				+"\nID: " + this.ident 
 				+ "\nDatum isteka: " + this.datumIsteka
 				+ "\nKategorija osiguranja: " + this.kategorijaosiguranja;
 	}

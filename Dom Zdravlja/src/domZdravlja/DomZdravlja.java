@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -216,7 +215,7 @@ public class DomZdravlja {
 				String[] split = line.split("\\|");
 				String ident = split[0];
 				String string = split[1];
-				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 				Date datumIsteka = format.parse(string);
 				KategorijaOsiguranja kategorijaosiguranja = KategorijaOsiguranja.valueOf(split[2]);
 				ZdravstvenaKnjizica knjizica = new ZdravstvenaKnjizica(ident,datumIsteka,kategorijaosiguranja);
@@ -237,7 +236,7 @@ public class DomZdravlja {
 			while ((line = reader.readLine()) != null) {
 				String[] split = line.split("\\|");
 				String string = split[0];
-				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 				Date zatrazenDatum = format.parse(string);
 				String opis= split[1];
 				Pacijent pacijent = nadjiPacijenta(split[2]);

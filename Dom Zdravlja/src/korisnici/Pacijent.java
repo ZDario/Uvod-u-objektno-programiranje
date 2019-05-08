@@ -33,7 +33,8 @@ public class Pacijent extends Korisnici {
 	}
 	@Override
 	public String toString() {
-		return "Ime: " + this.ime 
+		return "PACIJENT"
+				+"\nIme: " + this.ime 
 				+ "\nPrezime: " + this.prezime 
 				+ "\nJMBG: " + this.jmbg 
 				+ "\nAdresa: " + this.adresa
