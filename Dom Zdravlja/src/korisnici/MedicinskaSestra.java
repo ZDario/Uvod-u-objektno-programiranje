@@ -14,18 +14,6 @@ public class MedicinskaSestra extends Zaposlen {
 	}
 	@Override
 	public String toString() {
-		return "MEDICINSKA SESTRA"
-				+"\nIme: " + this.ime 
-				+ "\nPrezime: " + this.prezime 
-				+ "\nJMBG: " + this.jmbg 
-				+ "\nAdresa: " + this.adresa
-				+"\nTelefon: " + this.telefon
-				+"\nKorisnicko ime: " + this.korisnickoime
-				+"\nLozinka: " + this.lozinka
-				+"\nPol: " + this.pol
-				+"\nUloga: " + this.uloga
-				+"\nPlata: " + this.plata
-				+"\nSluzba: " + this.sluzba + "\n";
+		return "MEDICINSKA SESTRA\n"  + super.toString();
 	}
-	
 }

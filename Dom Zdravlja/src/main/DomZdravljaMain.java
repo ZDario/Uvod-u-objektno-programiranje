@@ -15,6 +15,7 @@ import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 import korisnici.Pol;
 import korisnici.Uloga;
 import domZdravlja.SluzbeDomaZdravlja;
+import gui.LoginProzor;
 
 
 
@@ -32,6 +33,9 @@ public class DomZdravljaMain {
 		domzdravlja.ucitajPacijente(PACIJENTI_FAJL);
 		domzdravlja.ucitajPreglede(PREGLEDI_FAJL);
 		domzdravlja.ucitajZdravstveneKnjizice(ZDRAVSTVENAKNJIZICA_FAJL);
+		
+		LoginProzor lp = new LoginProzor(domzdravlja);
+		lp.setVisible(true);
 		
 		
 		System.out.println("PODACI UCITANI IZ DATOTEKA:");

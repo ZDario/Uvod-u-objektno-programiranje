@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -110,7 +111,7 @@ public class DomZdravlja {
 			}
 		}
 		return null;
-	}	
+	}
 	
 	
 	
@@ -215,7 +216,7 @@ public class DomZdravlja {
 				String[] split = line.split("\\|");
 				String ident = split[0];
 				String string = split[1];
-				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 				Date datumIsteka = format.parse(string);
 				KategorijaOsiguranja kategorijaosiguranja = KategorijaOsiguranja.valueOf(split[2]);
 				ZdravstvenaKnjizica knjizica = new ZdravstvenaKnjizica(ident,datumIsteka,kategorijaosiguranja);
@@ -236,7 +237,7 @@ public class DomZdravlja {
 			while ((line = reader.readLine()) != null) {
 				String[] split = line.split("\\|");
 				String string = split[0];
-				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 				Date zatrazenDatum = format.parse(string);
 				String opis= split[1];
 				Pacijent pacijent = nadjiPacijenta(split[2]);
@@ -320,7 +321,12 @@ public class DomZdravlja {
 			File file = new File("src/fajlovi/" + imeFajla);
 			String content = "";
 			for (ZdravstvenaKnjizica knjizica : knjizice) {
-				content += knjizica.getIdent() + "|" + knjizica.getDatumIsteka() + "|"
+				
+				Date datumisteka = knjizica.getDatumIsteka(); 
+			    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
+			    String strDate = formatter.format(datumisteka);
+			    
+				content += knjizica.getIdent() + "|" + strDate + "|"
 						+ knjizica.getKategorijaosiguranja() + "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -336,8 +342,17 @@ public class DomZdravlja {
 			File file = new File("src/fajlovi/" + imeFajla);
 			String content = "";
 			for (Pregledi pregled : pregledi) {
-				content += pregled.getZatrazenDatum() + "|" + pregled.getOpis() + "|"
-						+ pregled.getPacijent() + "|" + pregled.getLekar() + "|" 
+				
+				Date zatrazendatum = pregled.getZatrazenDatum(); 
+			    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
+			    String strDate = formatter.format(zatrazendatum);
+			    
+			    
+			    
+			    Pacijent nadji = pregled.getPacijent();
+				
+				content += strDate + "|" + pregled.getOpis() + "|"
+						+ nadji + "|" + pregled.getLekar() + "|" 
 						+ pregled.getSoba() + "|" + pregled.getStatus() + "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -346,5 +361,34 @@ public class DomZdravlja {
 		} catch (IOException e) {
 			System.out.println("Greska prilikom snimanja pregleda.");
 		}
+	}
+	
+	
+	
+	//FUNKCIJE LOGIN
+	
+	public Lekar login1(String korisnickoime,String sifra) {
+		for(Lekar lekar : lekari) {
+			if(lekar.getKorisnickoime().equals(korisnickoime)&& lekar.getLozinka().equals(sifra)) {
+				return lekar;
+			}
+		}
+		return null;
+	}
+	public MedicinskaSestra login2(String korisnickoime,String sifra) {
+		for(MedicinskaSestra sestra : sestre) {
+			if(sestra.getKorisnickoime().equalsIgnoreCase(korisnickoime)&& sestra.getLozinka().equals(sifra)) {
+				return sestra;
+			}
+		}
+		return null;
+	}
+	public Pacijent login3(String korisnickoime,String sifra) {
+		for(Pacijent pacijent : pacijenti) {
+			if(pacijent.getKorisnickoime().equalsIgnoreCase(korisnickoime)&& pacijent.getLozinka().equals(sifra)) {
+				return pacijent;
+			}
+		}
+		return null;
 	}
 }

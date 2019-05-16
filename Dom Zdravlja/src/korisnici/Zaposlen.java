@@ -36,4 +36,10 @@ public abstract class Zaposlen extends Korisnici {
 	public void setSluzba(SluzbeDomaZdravlja sluzba) {
 		this.sluzba = sluzba;
 	}
+	@Override
+	public String toString() {
+		return super.toString() 
+				+"\nPlata: " + this.plata
+				+"\nSluzba: " + this.sluzba;
+	}
 }

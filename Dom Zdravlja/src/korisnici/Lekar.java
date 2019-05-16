@@ -25,18 +25,7 @@ public class Lekar extends Zaposlen {
 	}
 	@Override
 	public String toString() {
-		return "LEKAR"
-				+"\nIme: " + this.ime 
-				+ "\nPrezime: " + this.prezime 
-				+ "\nJMBG: " + this.jmbg 
-				+ "\nAdresa: " + this.adresa
-				+"\nTelefon: " + this.telefon
-				+"\nKorisnicko ime: " + this.korisnickoime
-				+"\nLozinka: " + this.lozinka
-				+"\nPol: " + this.pol
-				+"\nUloga: " + this.uloga
-				+"\nPlata: " + this.plata
-				+"\nSluzba: " + this.sluzba
+		return "LEKAR\n" +super.toString()
 				+"\nSpecijalizacija: " + this.specijalizacija;
 	}
 	

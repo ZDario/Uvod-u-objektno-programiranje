@@ -109,4 +109,16 @@ public abstract class Korisnici {
 	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
 	}
+	@Override
+	public String toString() {
+		return  "Ime: " + this.ime 
+				+ "\nPrezime: " + this.prezime 
+				+ "\nJMBG: " + this.jmbg 
+				+ "\nAdresa: " + this.adresa
+				+"\nTelefon: " + this.telefon
+				+"\nKorisnicko ime: " + this.korisnickoime
+				+"\nLozinka: " + this.lozinka
+				+"\nPol: " + this.pol
+				+"\nUloga: " + this.uloga;
+	}
 }
