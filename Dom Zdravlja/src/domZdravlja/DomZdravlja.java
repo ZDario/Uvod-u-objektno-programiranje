@@ -81,7 +81,32 @@ public class DomZdravlja {
 	public void dodajPreglede(Pregledi pregled) {
 		this.pregledi.add(pregled);
 	}
-
+	
+	
+	
+	
+	
+	//FUNKCIJE BRISANJA
+	
+	public void obrisiLekara(Lekar lekar) {
+		this.lekari.remove(lekar);
+	}
+	
+	public void obrisiMedicinskuSestru(MedicinskaSestra sestra) {
+		this.sestre.remove(sestra);
+	}
+	
+	public void obrisiPacijenta(Pacijent pacijent) {
+		this.pacijenti.remove(pacijent);
+	}
+	
+	public void obrisiZdravstvenuKnjizicu(ZdravstvenaKnjizica knjizica) {
+		this.knjizice.remove(knjizica);
+	}
+	
+	public void obrisiPregled(Pregledi pregled) {
+		this.pregledi.remove(pregled);
+	}
 	
 	
 	//FUNKCIJE PRONALAZENJA
@@ -90,6 +115,24 @@ public class DomZdravlja {
 		for (Lekar lekar : lekari) {
 			if (lekar.getKorisnickoime().equals(korisnickoime)) {
 				return lekar;
+			}
+		}
+		return null;
+	}
+	
+	public MedicinskaSestra nadjiMedicinskuSestru(String korisnickoime) {
+		for (MedicinskaSestra sestra : sestre) {
+			if (sestra.getKorisnickoime().equals(korisnickoime)) {
+				return sestra;
+			}
+		}
+		return null;
+	}
+	
+	public Pacijent nadjiPacijenta(String korisnickoime) {
+		for (Pacijent pacijent : pacijenti) {
+			if (pacijent.getKorisnickoime().equals(korisnickoime)) {
+				return pacijent;
 			}
 		}
 		return null;
@@ -104,10 +147,10 @@ public class DomZdravlja {
 		return null;
 	}		
 	
-	public Pacijent nadjiPacijenta(String korisnickoime) {
-		for (Pacijent pacijent : pacijenti) {
-			if (pacijent.getKorisnickoime().equals(korisnickoime)) {
-				return pacijent;
+	public Pregledi nadjiPreglede(Date zatrazenDatum) {
+		for (Pregledi pregled : pregledi) {
+			if (pregled.getZatrazenDatum().equals(zatrazenDatum)) {
+				return pregled;
 			}
 		}
 		return null;
@@ -305,8 +348,10 @@ public class DomZdravlja {
 				content += pacijent.getIme() + "|" + pacijent.getPrezime() + "|"
 						+ pacijent.getJmbg() + "|" + pacijent.getAdresa() + "|"
 						+ pacijent.getTelefon() + "|" + pacijent.getKorisnickoime() + "|"
-						+ pacijent.getLozinka() + "|" + pacijent.getPol() + "|" + pacijent.getUloga() + "|"
-						+ pacijent.getIzabraniLekar() + "|" + pacijent.getKnjizica() + "\n";
+						+ pacijent.getLozinka() + "|" + pacijent.getPol() + "|" 
+						+ pacijent.getUloga() + "|"
+						+ pacijent.getIzabraniLekar().getKorisnickoime() + "|" 
+						+ pacijent.getKnjizica().getIdent() + "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
@@ -346,14 +391,12 @@ public class DomZdravlja {
 				Date zatrazendatum = pregled.getZatrazenDatum(); 
 			    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
 			    String strDate = formatter.format(zatrazendatum);
-			    
-			    
-			    
-			    Pacijent nadji = pregled.getPacijent();
 				
 				content += strDate + "|" + pregled.getOpis() + "|"
-						+ nadji + "|" + pregled.getLekar() + "|" 
-						+ pregled.getSoba() + "|" + pregled.getStatus() + "\n";
+						+ pregled.getPacijent().getKorisnickoime() + "|" 
+						+ pregled.getLekar().getKorisnickoime() + "|" 
+						+ pregled.getSoba() + "|" 
+						+ pregled.getStatus() + "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
