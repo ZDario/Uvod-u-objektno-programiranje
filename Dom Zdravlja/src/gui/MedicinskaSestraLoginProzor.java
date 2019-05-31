@@ -11,12 +11,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import domZdravlja.DomZdravlja;
+import gui.MeniKorisnika.MedicinskaSestraMeni;
 import korisnici.Lekar;
 import korisnici.MedicinskaSestra;
-import korisnici.Pacijent;
 import net.miginfocom.swing.MigLayout;
 
-public class LoginProzor extends JFrame {
+public class MedicinskaSestraLoginProzor extends JFrame {
 	
 	private JLabel lblPoruka = new JLabel("Dobrodosli. Molimo da se prijavite");
 	private JLabel lblKorisnickoIme = new JLabel("Korisnicko ime");
@@ -29,9 +29,9 @@ public class LoginProzor extends JFrame {
 	
 	private DomZdravlja domZdravlja;
 	
-	public LoginProzor(DomZdravlja domZdravlja) {
+	public MedicinskaSestraLoginProzor(DomZdravlja domZdravlja) {
 		this.domZdravlja = domZdravlja;
-		setTitle("Prijava");
+		setTitle("Prijava Medicinske Sestre");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -51,29 +51,37 @@ public class LoginProzor extends JFrame {
 		add(lblPrazno);
 		add(btnPrijava,"split2");
 		add(btnCancel);
+		getRootPane().setDefaultButton(btnPrijava);
 	}
 	private void initListeners() {
-		btnCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LoginProzor.this.dispose();
-				LoginProzor.this.setVisible(false);
-			}
-		});
 		btnPrijava.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String username = txtKorisnickoIme.getText().trim();
 				String password = new String(txtSifra.getPassword()).trim();
 				
-				Lekar prijavljen = domZdravlja.login1(username, password);
+				MedicinskaSestra prijavljen = domZdravlja.login2(username, password);
 				if(prijavljen == null) {
 					JOptionPane.showMessageDialog(null, "Neispravni login podaci","Prijava",JOptionPane.WARNING_MESSAGE);
 				}else {
-					LoginProzor.this.dispose();
-					LoginProzor.this.setVisible(false);
+					MedicinskaSestra sestra = domZdravlja.login2(username, password);
+					if(sestra !=null) {
+						MedicinskaSestraLoginProzor.this.setVisible(false);
+						MedicinskaSestraLoginProzor.this.dispose();
+						MedicinskaSestraMeni sestraMeni = new MedicinskaSestraMeni(domZdravlja, sestra);
+						sestraMeni.setVisible(true);
+					}else {
+						JOptionPane.showMessageDialog(null, "Pogrešni login podaci!");
+					}
 				}
-				}
+			}
+		});
+		btnCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MedicinskaSestraLoginProzor.this.setVisible(false);
+				MedicinskaSestraLoginProzor.this.dispose();
+			}
 		});
 	}
 }

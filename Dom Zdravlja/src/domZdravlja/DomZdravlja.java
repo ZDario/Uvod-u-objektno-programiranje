@@ -412,7 +412,7 @@ public class DomZdravlja {
 	
 	public Lekar login1(String korisnickoime,String sifra) {
 		for(Lekar lekar : lekari) {
-			if(lekar.getKorisnickoime().equals(korisnickoime)&& lekar.getLozinka().equals(sifra)) {
+			if(lekar.getKorisnickoime().equalsIgnoreCase(korisnickoime)&& lekar.getLozinka().equals(sifra)) {
 				return lekar;
 			}
 		}

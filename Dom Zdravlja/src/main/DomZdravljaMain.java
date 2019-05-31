@@ -16,16 +16,15 @@ import korisnici.Pol;
 import korisnici.Uloga;
 import domZdravlja.SluzbeDomaZdravlja;
 import gui.IzaberiProzor;
-import gui.LoginProzor;
 
 
 
 public class DomZdravljaMain {
-	private static String LEKARI_FAJL = "Lekari";
-	private static String MEDICINSKESESTRE_FAJL = "Medicinske sestre";
-	private static String PACIJENTI_FAJL = "Pacijenti";
-	private static String PREGLEDI_FAJL = "Pregledi";
-	private static String ZDRAVSTVENAKNJIZICA_FAJL = "Zdravstvena Knjizica";
+	private static String LEKARI_FAJL = "Lekari.txt";
+	private static String MEDICINSKESESTRE_FAJL = "Medicinske sestre.txt";
+	private static String PACIJENTI_FAJL = "Pacijenti.txt";
+	private static String PREGLEDI_FAJL = "Pregledi.txt";
+	private static String ZDRAVSTVENAKNJIZICA_FAJL = "Zdravstvena Knjizica.txt";
 	
 	public static void main(String[] args) {
 		DomZdravlja domzdravlja = new DomZdravlja();
@@ -34,9 +33,6 @@ public class DomZdravljaMain {
 		domzdravlja.ucitajPacijente(PACIJENTI_FAJL);
 		domzdravlja.ucitajPreglede(PREGLEDI_FAJL);
 		domzdravlja.ucitajZdravstveneKnjizice(ZDRAVSTVENAKNJIZICA_FAJL);
-		
-//		LoginProzor lp = new LoginProzor(domzdravlja);
-//		lp.setVisible(true);
 		
 		IzaberiProzor iz = new IzaberiProzor(domzdravlja);
 		iz.setVisible(true);

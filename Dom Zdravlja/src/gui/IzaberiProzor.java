@@ -70,7 +70,7 @@ public class IzaberiProzor extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LekarLoginProzor lekarLogin = new LekarLoginProzor();
+				LekarLoginProzor lekarLogin = new LekarLoginProzor(domZdravlja);
 				lekarLogin.setVisible(true);
 			}
 		});
@@ -78,7 +78,7 @@ public class IzaberiProzor extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SestraLoginProzor sestraLogin = new SestraLoginProzor();
+				MedicinskaSestraLoginProzor sestraLogin = new MedicinskaSestraLoginProzor(domZdravlja);
 				sestraLogin.setVisible(true);
 			}
 		});
@@ -86,7 +86,7 @@ public class IzaberiProzor extends JFrame {
 	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PacijentLoginProzor pacijentLogin = new PacijentLoginProzor();
+				PacijentLoginProzor pacijentLogin = new PacijentLoginProzor(domZdravlja);
 				pacijentLogin.setVisible(true);
 			}
 		});
