@@ -160,9 +160,9 @@ public class DomZdravlja {
 	
 	//FUNKCIJE UCITAVANJA
 	
-	public void ucitajLekare(String imeFajla) {
+	public void ucitajLekare() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Lekari.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
@@ -191,9 +191,9 @@ public class DomZdravlja {
 	}
 	
 	
-	public void ucitajMedicinskeSestre(String imeFajla) {
+	public void ucitajMedicinskeSestre() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Medicinske sestre.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
@@ -221,9 +221,9 @@ public class DomZdravlja {
 	}
 		
 
-	public void ucitajPacijente(String imeFajla) {
+	public void ucitajPacijente() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Pacijenti.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
@@ -250,9 +250,9 @@ public class DomZdravlja {
 	}
 
 	
-	public void ucitajZdravstveneKnjizice(String imeFajla) {
+	public void ucitajZdravstveneKnjizice() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Zdravstvena Knjizica.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
@@ -272,9 +272,9 @@ public class DomZdravlja {
 	}
 	
 	
-	public void ucitajPreglede(String imeFajla) {
+	public void ucitajPreglede() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Pregledi.txt");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
@@ -301,9 +301,9 @@ public class DomZdravlja {
 	
 	//FUNKCIJE SNIMANJA
 	
-	public void snimiLekare(String imeFajla) {
+	public void snimiLekare() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Lekari.txt");
 			String content = "";
 			for (Lekar lekar : lekari) {
 				content += lekar.getIme() + "|" + lekar.getPrezime() + "|"
@@ -321,9 +321,9 @@ public class DomZdravlja {
 		}
 	}
 	
-	public void snimiMedicinskeSestre(String imeFajla) {
+	public void snimiMedicinskeSestre() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Medicinske sestre.txt");
 			String content = "";
 			for (MedicinskaSestra sestra : sestre) {
 				content += sestra.getIme() + "|" + sestra.getPrezime() + "|"
@@ -340,9 +340,9 @@ public class DomZdravlja {
 		}
 	}
 	
-	public void snimiPacijente(String imeFajla) {
+	public void snimiPacijente() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Pacijenti.txt");
 			String content = "";
 			for (Pacijent pacijent : pacijenti) {
 				content += pacijent.getIme() + "|" + pacijent.getPrezime() + "|"
@@ -361,9 +361,9 @@ public class DomZdravlja {
 		}
 	}
 	
-	public void snimiZdravstveneKnjizice(String imeFajla) {
+	public void snimiZdravstveneKnjizice() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Zdravstvena Knjizica.txt");
 			String content = "";
 			for (ZdravstvenaKnjizica knjizica : knjizice) {
 				
@@ -382,9 +382,9 @@ public class DomZdravlja {
 		}
 	}
 	
-	public void snimiPreglede(String imeFajla) {
+	public void snimiPreglede() {
 		try {
-			File file = new File("src/fajlovi/" + imeFajla);
+			File file = new File("src/fajlovi/Pregledi.txt");
 			String content = "";
 			for (Pregledi pregled : pregledi) {
 				

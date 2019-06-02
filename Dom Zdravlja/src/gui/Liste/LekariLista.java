@@ -31,8 +31,8 @@ public class LekariLista extends JFrame {
 	
 	public LekariLista(DomZdravlja domZdravlja) {
 		this.domZdravlja = domZdravlja;
-		setTitle("Knjige");
-		setSize(666,666);
+		setTitle("Lekari");
+		setSize(1200,500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		initGUI();
@@ -43,8 +43,6 @@ public class LekariLista extends JFrame {
 		toolbar.add(btnEdit);
 		toolbar.add(btnRemove);
 		add(toolbar, BorderLayout.NORTH);
-//		ime,prezime,jmbg,adresa,telefon,korisnickoime,lozinka,pol,uloga,
-//		plata,sluzba,specijalizacija
 		String[] zaglavlje = new String[] {
 				"Ime","Prezime","JMBG","Adresa","Telefon","Korisnicko Ime",
 				"Lozinka","Pol","Uloga","Plata","Sluzba","Specijalizacija"
@@ -80,8 +78,8 @@ public class LekariLista extends JFrame {
 		btnAdd.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				LekarUpdate lu = new LekarUpdate();
+			public void actionPerformed(ActionEvent e) {
+				LekarUpdate lu = new LekarUpdate(domZdravlja, null);
 				lu.setVisible(true);
 				
 			}
@@ -89,16 +87,18 @@ public class LekariLista extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				int red = tabela.getSelectedRow();
 				if(red == -1){
 					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli","Greska",JOptionPane.WARNING_MESSAGE);
 				}else{
-					String korisnickoime = (String)tabela.getValueAt(red, 0);
-					Lekar l = domZdravlja.nadjiLekara(korisnickoime);
-					if(l != null){
-						LekarUpdate Lu = new LekarUpdate();
-						Lu.setVisible(true);
+					String korisnickoime = tabela.getValueAt(red, 5).toString();
+					Lekar lekar = domZdravlja.nadjiLekara(korisnickoime);
+					if(lekar != null){
+						LekarUpdate Lupdate = new LekarUpdate(domZdravlja, lekar);
+						Lupdate.setVisible(true);
+					}else {
+						JOptionPane.showMessageDialog(null, "Nije moguce pronaci odabranog lekara!", "Greska", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -106,25 +106,28 @@ public class LekariLista extends JFrame {
 		btnRemove.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				int red = tabela.getSelectedRow();
 				if(red == -1){
 					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli","Greska",JOptionPane.WARNING_MESSAGE);
 				}else{
-					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da hocete da obrisite lekara?"
-							, "Potvrda", JOptionPane.YES_NO_OPTION);
-					if(izbor == JOptionPane.YES_NO_OPTION){
-						String korisnickoime = (String)tabela.getValueAt(red, 0);
-						Lekar l = domZdravlja.nadjiLekara(korisnickoime);
-						if(l != null){
-							domZdravlja.obrisiLekara(l);
-							domZdravlja.snimiLekare("Lekari.txt");
-							DefaultTableModel model = (DefaultTableModel)tabela.getModel();
+					String korisnickoime = tabela.getValueAt(red, 5).toString();
+					Lekar lekar = domZdravlja.nadjiLekara(korisnickoime);
+					if(lekar != null) {
+					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete lekara?",
+							" - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
+						if(izbor == JOptionPane.YES_NO_OPTION) {
+							DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+							if(lekar instanceof Lekar) {
+								domZdravlja.getLekare().remove(lekar);
+							}
 							model.removeRow(red);
+							domZdravlja.snimiLekare();
 						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Nije moguce pronaci odabranog lekara!", "Greska", JOptionPane.ERROR_MESSAGE);
 					}
-				}
-				
+				}	
 			}
 		});
 	}

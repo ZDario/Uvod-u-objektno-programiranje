@@ -20,19 +20,19 @@ import gui.IzaberiProzor;
 
 
 public class DomZdravljaMain {
-	private static String LEKARI_FAJL = "Lekari.txt";
-	private static String MEDICINSKESESTRE_FAJL = "Medicinske sestre.txt";
-	private static String PACIJENTI_FAJL = "Pacijenti.txt";
-	private static String PREGLEDI_FAJL = "Pregledi.txt";
-	private static String ZDRAVSTVENAKNJIZICA_FAJL = "Zdravstvena Knjizica.txt";
+//	private static String LEKARI_FAJL = "Lekari.txt";
+//	private static String MEDICINSKESESTRE_FAJL = "Medicinske sestre.txt";
+//	private static String PACIJENTI_FAJL = "Pacijenti.txt";
+//	private static String PREGLEDI_FAJL = "Pregledi.txt";
+//	private static String ZDRAVSTVENAKNJIZICA_FAJL = "Zdravstvena Knjizica.txt";
 	
 	public static void main(String[] args) {
 		DomZdravlja domzdravlja = new DomZdravlja();
-		domzdravlja.ucitajLekare(LEKARI_FAJL);
-		domzdravlja.ucitajMedicinskeSestre(MEDICINSKESESTRE_FAJL);
-		domzdravlja.ucitajPacijente(PACIJENTI_FAJL);
-		domzdravlja.ucitajPreglede(PREGLEDI_FAJL);
-		domzdravlja.ucitajZdravstveneKnjizice(ZDRAVSTVENAKNJIZICA_FAJL);
+		domzdravlja.ucitajLekare();
+		domzdravlja.ucitajMedicinskeSestre();
+		domzdravlja.ucitajPacijente();
+		domzdravlja.ucitajPreglede();
+		domzdravlja.ucitajZdravstveneKnjizice();
 		
 		IzaberiProzor iz = new IzaberiProzor(domzdravlja);
 		iz.setVisible(true);
@@ -71,13 +71,13 @@ public class DomZdravljaMain {
 //		
 //		
 //		System.out.println("Snimanje dodanih podataka...");
-//		domzdravlja.snimiLekare(LEKARI_FAJL);
-//		domzdravlja.snimiMedicinskeSestre(MEDICINSKESESTRE_FAJL);
-//		domzdravlja.snimiPacijente(PACIJENTI_FAJL);
-//		domzdravlja.snimiPreglede(PREGLEDI_FAJL);
-//		domzdravlja.snimiZdravstveneKnjizice(ZDRAVSTVENAKNJIZICA_FAJL);
+//		domzdravlja.snimiLekare();
+//		domzdravlja.snimiMedicinskeSestre();
+//		domzdravlja.snimiPacijente();
+//		domzdravlja.snimiPreglede();
+//		domzdravlja.snimiZdravstveneKnjizice();
 //	}
-
+//
 //	public static void ispisiSvePodatke(DomZdravlja domzdravlja) {
 //		for(Lekar lekar : domzdravlja.getLekare()) {
 //			System.out.println(lekar + "\n");
