@@ -45,9 +45,6 @@ public class IzaberiProzor extends JFrame {
 	private void initGUI() {
 		MigLayout mig = new MigLayout();
 		setLayout(mig);
-		btnLekar.setPreferredSize(new Dimension(50,50));
-		btnSestra.setPreferredSize(new Dimension(50,50));
-		btnPacijent.setPreferredSize(new Dimension(50,50));
 		lblPoruka1.setFont(new Font("American Typewriter",Font.PLAIN,25));
 		lblPoruka2.setFont(new Font("Helvetica Neue",Font.PLAIN,25));
 		lblLekar.setFont(new Font("Arial",Font.PLAIN,20));

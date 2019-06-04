@@ -114,7 +114,8 @@ public class LekariLista extends JFrame {
 					String korisnickoime = tabela.getValueAt(red, 5).toString();
 					Lekar lekar = domZdravlja.nadjiLekara(korisnickoime);
 					if(lekar != null) {
-					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete lekara?",
+					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete lekara "
+							+ lekar.getIme() + lekar.getPrezime() + " ?",
 							" - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
 						if(izbor == JOptionPane.YES_NO_OPTION) {
 							DefaultTableModel model = (DefaultTableModel) tabela.getModel();

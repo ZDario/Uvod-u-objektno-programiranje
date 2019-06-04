@@ -16,9 +16,11 @@ import javax.swing.table.DefaultTableModel;
 
 import domZdravlja.DomZdravlja;
 import gui.DodavanjeIzmena.PacijentUpdate;
+import gui.DodavanjeIzmena.ZdravstvenaKnjizicaUpdate;
 import korisnici.Pacijent;
+import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
-public class PacijentiLista extends JFrame {
+public class ZdravstveneKnjiziceLista extends JFrame {
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/slike/add.gif"));
 	private JButton btnAdd = new JButton(addIcon);
 	private ImageIcon editIcon = new ImageIcon(getClass().getResource("/slike/edit.gif"));
@@ -29,9 +31,9 @@ public class PacijentiLista extends JFrame {
 	private JTable tabela;
 	private DomZdravlja domZdravlja;
 	
-	public PacijentiLista(DomZdravlja domZdravlja) {
+	public ZdravstveneKnjiziceLista(DomZdravlja domZdravlja) {
 		this.domZdravlja = domZdravlja;
-		setTitle("Pacijenti");
+		setTitle("Zdravstvene Knjizice");
 		setSize(1200,500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -44,24 +46,15 @@ public class PacijentiLista extends JFrame {
 		toolbar.add(btnRemove);
 		add(toolbar, BorderLayout.NORTH);
 		String[] zaglavlje = new String[] {
-				"Ime","Prezime","JMBG","Adresa","Telefon","Korisnicko Ime",
-				"Lozinka","Pol","Uloga","Izabrani Lekar","Zdravstvena Knjizica"
+				"Ident","Datum Isteka","Kategorija Osiguranja"
 		};
-		Object[][] sadrzaj = new Object[domZdravlja.getPacijente().size()][zaglavlje.length];
+		Object[][] sadrzaj = new Object[domZdravlja.getZdravstvenaKnjizice().size()][zaglavlje.length];
 		
-		for(int i=0;i<domZdravlja.getPacijente().size();i++) {
-			Pacijent pacijent = domZdravlja.getPacijente().get(i);
-			sadrzaj[i][0] = pacijent.getIme();
-			sadrzaj[i][1] = pacijent.getPrezime();
-			sadrzaj[i][2] = pacijent.getJmbg();
-			sadrzaj[i][3] = pacijent.getAdresa();
-			sadrzaj[i][4] = pacijent.getTelefon();
-			sadrzaj[i][5] = pacijent.getKorisnickoime();
-			sadrzaj[i][6] = pacijent.getLozinka();
-			sadrzaj[i][7] = pacijent.getPol();
-			sadrzaj[i][8] = pacijent.getUloga();
-			sadrzaj[i][9] = pacijent.getIzabraniLekar().getKorisnickoime();
-			sadrzaj[i][10] = pacijent.getKnjizica().getIdent();
+		for(int i=0;i<domZdravlja.getZdravstvenaKnjizice().size();i++) {
+			ZdravstvenaKnjizica knjizica = domZdravlja.getZdravstvenaKnjizice().get(i);
+			sadrzaj[i][0] = knjizica.getIdent();
+			sadrzaj[i][1] = knjizica.getDatumIsteka();
+			sadrzaj[i][2] = knjizica.getKategorijaosiguranja();
 		}
 		DefaultTableModel model = new DefaultTableModel(sadrzaj, zaglavlje);
 		tabela = new JTable(model);
@@ -78,8 +71,8 @@ public class PacijentiLista extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PacijentUpdate pu = new PacijentUpdate(domZdravlja, null);
-				pu.setVisible(true);
+				ZdravstvenaKnjizicaUpdate zku = new ZdravstvenaKnjizicaUpdate(domZdravlja, null);
+				zku.setVisible(true);
 				
 			}
 		});
@@ -91,13 +84,13 @@ public class PacijentiLista extends JFrame {
 				if(red == -1){
 					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli!","Greska",JOptionPane.WARNING_MESSAGE);
 				}else{
-					String korisnickoime = tabela.getValueAt(red, 5).toString();
-					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
-					if(pacijent != null){
-						PacijentUpdate Pupdate = new PacijentUpdate(domZdravlja, pacijent);
-						Pupdate.setVisible(true);
+					String ident = tabela.getValueAt(red, 0).toString();
+					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicu(ident);
+					if(knjizica != null){
+						ZdravstvenaKnjizicaUpdate ZKupdate = new ZdravstvenaKnjizicaUpdate(domZdravlja, knjizica);
+						ZKupdate.setVisible(true);
 					}else {
-						JOptionPane.showMessageDialog(null, "Nije moguce pronaci odabranog pacijenta!", "Greska", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nije moguce pronaci odabranu zdravstvenu knjizicu!", "Greska", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -110,22 +103,22 @@ public class PacijentiLista extends JFrame {
 				if(red == -1){
 					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli!","Greska",JOptionPane.WARNING_MESSAGE);
 				}else{
-					String korisnickoime = tabela.getValueAt(red, 5).toString();
-					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
-					if(pacijent != null) {
-					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete pacijenta "
-							+ pacijent.getIme() + pacijent.getPrezime() + " ?",
+					String ident = tabela.getValueAt(red, 0).toString();
+					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicu(ident);
+					if(knjizica != null) {
+					int izbor = JOptionPane.showConfirmDialog(null, "Da li ste sigurni da zelite da obrisete zdravstvenu knjizicu broja "
+							+ knjizica.getIdent() + " ?",
 							" - Potvrda brisanja", JOptionPane.YES_NO_OPTION);
 						if(izbor == JOptionPane.YES_NO_OPTION) {
 							DefaultTableModel model = (DefaultTableModel) tabela.getModel();
-							if(pacijent instanceof Pacijent) {
-								domZdravlja.getPacijente().remove(pacijent);
+							if(knjizica instanceof ZdravstvenaKnjizica) {
+								domZdravlja.getZdravstvenaKnjizice().remove(knjizica);
 							}
 							model.removeRow(red);
-							domZdravlja.snimiPacijente();
+							domZdravlja.snimiZdravstveneKnjizice();
 						}
 					}else {
-						JOptionPane.showMessageDialog(null, "Nije moguce pronaci odabranog pacijenta!", "Greska", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nije moguce pronaci odabranu zdravstvenu knjizicu!", "Greska", JOptionPane.ERROR_MESSAGE);
 					}
 				}	
 			}

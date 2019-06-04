@@ -85,7 +85,7 @@ public class LekarUpdate extends JFrame {
 		add(lblKorisnickoIme);		add(txtKorisnickoIme);
 		add(lblLozinka);			add(txtLozinka);
 		add(lblPol);				add(cbPol);
-		add(lblUloga);				cbUloga.setEnabled(false);	add(cbUloga);
+		add(lblUloga);				add(cbUloga);		cbUloga.setSelectedItem(Uloga.Lekar);	cbUloga.setEnabled(false);
 		add(lblPlata);				add(txtPlata);
 		add(lblSluzba);				add(cbSluzba);
 		add(lblSpecijalizacija);	add(txtSpecijalizacija,"wrap 10");
@@ -93,15 +93,20 @@ public class LekarUpdate extends JFrame {
 	}
 	private void popuniPolja() {
 		txtIme.setText(lekar.getIme());
+		txtIme.setEnabled(false);
 		txtPrezime.setText(lekar.getPrezime());
+		txtPrezime.setEnabled(false);
 		txtJmbg.setText(lekar.getJmbg());
+		txtJmbg.setEnabled(false);
 		txtAdresa.setText(lekar.getAdresa());
 		txtTelefon.setText(lekar.getTelefon());
 		txtKorisnickoIme.setText(lekar.getKorisnickoime());
-		txtLozinka.setText(this.lekar.getLozinka());
+		txtLozinka.setText(lekar.getLozinka());
 		cbPol.setSelectedItem(lekar.getPol());
+		cbPol.setEnabled(false);
+		lekar.getUloga();
+		cbUloga.setSelectedItem(Uloga.Lekar);
 		cbUloga.setEnabled(false);
-		cbUloga.setSelectedItem(lekar.getUloga());
 		txtPlata.setText(String.valueOf(lekar.getPlata()));
 		cbSluzba.setSelectedItem(lekar.getSluzba());
 		txtSpecijalizacija.setText(lekar.getSpecijalizacija());

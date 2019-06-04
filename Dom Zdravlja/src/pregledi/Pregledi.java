@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Pregledi {
 	
+	private String ident;
 	private Date zatrazenDatum;
 	private String opis;
 	private Pacijent pacijent;
@@ -14,6 +15,7 @@ public class Pregledi {
 	private StatusPregleda status;
 	
 	public Pregledi() {
+		this.ident = "";
 		this.zatrazenDatum = null;
 		this.opis = "";
 		this.pacijent = new Pacijent();
@@ -23,9 +25,10 @@ public class Pregledi {
 		
 	}
 	
-	public Pregledi(Date zatrazenDatum,  String opis, Pacijent pacijent,
+	public Pregledi(String ident, Date zatrazenDatum,  String opis, Pacijent pacijent,
 			 Lekar lekar, int soba, StatusPregleda status) {
 		super();
+		this.ident = ident;
 		this.zatrazenDatum = zatrazenDatum;
 		this.opis = opis;
 		this.pacijent = pacijent;
@@ -81,9 +84,19 @@ public class Pregledi {
 	public void setStatus(StatusPregleda status) {
 		this.status = status;
 	}
+	
+	public String getIdent() {
+		return ident;
+	}
+
+	public void setIdent(String ident) {
+		this.ident = ident;
+	}
+
 	@Override
 	public String toString() {
 		return "PREGLED"
+				+"\nIdent: " + this.ident
 				+"\nDatum: " + this.zatrazenDatum 
 				+ "\nKratak opis pregleda: " + this.opis
 				+ "\nPacijent: " + this.pacijent

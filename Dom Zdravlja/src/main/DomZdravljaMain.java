@@ -1,20 +1,20 @@
 package main;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import korisnici.Lekar;
-import zdravstvenaKnjizica.KategorijaOsiguranja;
-import korisnici.MedicinskaSestra;
-import korisnici.Pacijent;
+//import java.text.DateFormat;
+//import java.text.SimpleDateFormat;
+//import java.util.Calendar;
+//import java.util.Date;
+//
+//import korisnici.Lekar;
+//import zdravstvenaKnjizica.KategorijaOsiguranja;
+//import korisnici.MedicinskaSestra;
+//import korisnici.Pacijent;
 import domZdravlja.DomZdravlja;
-import pregledi.Pregledi;
-import zdravstvenaKnjizica.ZdravstvenaKnjizica;
-import korisnici.Pol;
-import korisnici.Uloga;
-import domZdravlja.SluzbeDomaZdravlja;
+//import pregledi.Pregledi;
+//import zdravstvenaKnjizica.ZdravstvenaKnjizica;
+//import korisnici.Pol;
+//import korisnici.Uloga;
+//import domZdravlja.SluzbeDomaZdravlja;
 import gui.IzaberiProzor;
 
 
@@ -30,9 +30,9 @@ public class DomZdravljaMain {
 		DomZdravlja domzdravlja = new DomZdravlja();
 		domzdravlja.ucitajLekare();
 		domzdravlja.ucitajMedicinskeSestre();
+		domzdravlja.ucitajZdravstveneKnjizice();
 		domzdravlja.ucitajPacijente();
 		domzdravlja.ucitajPreglede();
-		domzdravlja.ucitajZdravstveneKnjizice();
 		
 		IzaberiProzor iz = new IzaberiProzor(domzdravlja);
 		iz.setVisible(true);

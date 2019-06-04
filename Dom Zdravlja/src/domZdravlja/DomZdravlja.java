@@ -62,7 +62,7 @@ public class DomZdravlja {
 	public ArrayList<Pacijent> getPacijente() {
 		return pacijenti;
 	}
-	public void dodajMedicinskaSestru(Pacijent pacijent) {
+	public void dodajPacijenta(Pacijent pacijent) {
 		this.pacijenti.add(pacijent);
 	}
 	
@@ -147,9 +147,9 @@ public class DomZdravlja {
 		return null;
 	}		
 	
-	public Pregledi nadjiPreglede(Date zatrazenDatum) {
+	public Pregledi nadjiPreglede(String ident) {
 		for (Pregledi pregled : pregledi) {
-			if (pregled.getZatrazenDatum().equals(zatrazenDatum)) {
+			if (pregled.getIdent().equals(ident)) {
 				return pregled;
 			}
 		}
@@ -279,16 +279,17 @@ public class DomZdravlja {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				String[] split = line.split("\\|");
-				String string = split[0];
+				String ident = split[0];
+				String string = split[1];
 				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 				Date zatrazenDatum = format.parse(string);
-				String opis= split[1];
-				Pacijent pacijent = nadjiPacijenta(split[2]);
-				Lekar izabraniLekar = nadjiLekara(split[3]);
-				String sobaString = split[4];
+				String opis= split[2];
+				Pacijent pacijent = nadjiPacijenta(split[3]);
+				Lekar izabraniLekar = nadjiLekara(split[4]);
+				String sobaString = split[5];
 				int soba = Integer.parseInt(sobaString);
-				StatusPregleda status = StatusPregleda.valueOf(split[5]);
-				Pregledi pregled = new Pregledi(zatrazenDatum,opis,pacijent,izabraniLekar,soba,status);
+				StatusPregleda status = StatusPregleda.valueOf(split[6]);
+				Pregledi pregled = new Pregledi(ident,zatrazenDatum,opis,pacijent,izabraniLekar,soba,status);
 				pregledi.add(pregled);
 			}
 			reader.close();
@@ -392,7 +393,7 @@ public class DomZdravlja {
 			    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
 			    String strDate = formatter.format(zatrazendatum);
 				
-				content += strDate + "|" + pregled.getOpis() + "|"
+				content += pregled.getIdent() + "|" + strDate + "|" + pregled.getOpis() + "|"
 						+ pregled.getPacijent().getKorisnickoime() + "|" 
 						+ pregled.getLekar().getKorisnickoime() + "|" 
 						+ pregled.getSoba() + "|" 
