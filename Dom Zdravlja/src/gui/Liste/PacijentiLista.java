@@ -45,7 +45,7 @@ public class PacijentiLista extends JFrame {
 		add(toolbar, BorderLayout.NORTH);
 		String[] zaglavlje = new String[] {
 				"Ime","Prezime","JMBG","Adresa","Telefon","Korisnicko Ime",
-				"Lozinka","Pol","Uloga","Izabrani Lekar","Zdravstvena Knjizica"
+				"Lozinka","Pol","Uloga","Zdravstvena Knjizica","Izabrani Lekar",
 		};
 		Object[][] sadrzaj = new Object[domZdravlja.getPacijente().size()][zaglavlje.length];
 		
@@ -60,8 +60,8 @@ public class PacijentiLista extends JFrame {
 			sadrzaj[i][6] = pacijent.getLozinka();
 			sadrzaj[i][7] = pacijent.getPol();
 			sadrzaj[i][8] = pacijent.getUloga();
-			sadrzaj[i][9] = pacijent.getIzabraniLekar().getKorisnickoime();
-			sadrzaj[i][10] = pacijent.getKnjizica().getIdent();
+			sadrzaj[i][9] = pacijent.getKnjizica().getIdent();
+			sadrzaj[i][10] = pacijent.getIzabraniLekar().getKorisnickoime();
 		}
 		DefaultTableModel model = new DefaultTableModel(sadrzaj, zaglavlje);
 		tabela = new JTable(model);

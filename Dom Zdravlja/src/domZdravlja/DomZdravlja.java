@@ -237,10 +237,10 @@ public class DomZdravlja {
 				String lozinka = split[6];
 				Pol pol = Pol.valueOf(split[7]);
 				Uloga uloga = Uloga.valueOf(split[8]);
-				Lekar izabraniLekar = nadjiLekara(split[9]);
-				ZdravstvenaKnjizica knjizica = nadjiKnjizicu(split[10]);
+				ZdravstvenaKnjizica knjizica = nadjiKnjizicu(split[9]);
+				Lekar izabraniLekar = nadjiLekara(split[10]);
 				Pacijent pacijent = new Pacijent(ime, prezime, jmbg, adresa, telefon, korisnickoime,lozinka, 
-						pol, uloga, izabraniLekar,knjizica);
+						pol, uloga, knjizica, izabraniLekar);
 				pacijenti.add(pacijent);
 			}
 			reader.close();
@@ -284,12 +284,12 @@ public class DomZdravlja {
 				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 				Date zatrazenDatum = format.parse(string);
 				String opis= split[2];
-				Pacijent pacijent = nadjiPacijenta(split[3]);
-				Lekar izabraniLekar = nadjiLekara(split[4]);
+				Lekar izabraniLekar = nadjiLekara(split[3]);
+				Pacijent pacijent = nadjiPacijenta(split[4]);
 				String sobaString = split[5];
 				int soba = Integer.parseInt(sobaString);
 				StatusPregleda status = StatusPregleda.valueOf(split[6]);
-				Pregledi pregled = new Pregledi(ident,zatrazenDatum,opis,pacijent,izabraniLekar,soba,status);
+				Pregledi pregled = new Pregledi(ident,zatrazenDatum,opis,izabraniLekar,pacijent,soba,status);
 				pregledi.add(pregled);
 			}
 			reader.close();
@@ -351,8 +351,8 @@ public class DomZdravlja {
 						+ pacijent.getTelefon() + "|" + pacijent.getKorisnickoime() + "|"
 						+ pacijent.getLozinka() + "|" + pacijent.getPol() + "|" 
 						+ pacijent.getUloga() + "|"
-						+ pacijent.getIzabraniLekar().getKorisnickoime() + "|" 
-						+ pacijent.getKnjizica().getIdent() + "\n";
+						+ pacijent.getKnjizica().getIdent() + "|"
+						+ pacijent.getIzabraniLekar().getKorisnickoime() + "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(content);
@@ -394,8 +394,8 @@ public class DomZdravlja {
 			    String strDate = formatter.format(zatrazendatum);
 				
 				content += pregled.getIdent() + "|" + strDate + "|" + pregled.getOpis() + "|"
-						+ pregled.getPacijent().getKorisnickoime() + "|" 
 						+ pregled.getLekar().getKorisnickoime() + "|" 
+						+ pregled.getPacijent().getKorisnickoime() + "|" 
 						+ pregled.getSoba() + "|" 
 						+ pregled.getStatus() + "\n";
 			}

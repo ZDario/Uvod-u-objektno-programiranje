@@ -17,12 +17,9 @@ import javax.swing.JTextField;
 import domZdravlja.DomZdravlja;
 import korisnici.Lekar;
 import korisnici.Pacijent;
-import korisnici.Pol;
-import korisnici.Uloga;
 import net.miginfocom.swing.MigLayout;
 import pregledi.Pregledi;
 import pregledi.StatusPregleda;
-import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
 public class PregledUpdate extends JFrame {
 	private JLabel lblIdent = new JLabel("Ident: ");
@@ -34,11 +31,11 @@ public class PregledUpdate extends JFrame {
 	private JLabel lblOpis = new JLabel("Opis: ");
 	private JTextField txtOpis = new JTextField(20);
 	
-	private JLabel lblPacijent = new JLabel("Pacijent: ");
-	private JTextField txtPacijent = new JTextField(20);
-	
 	private JLabel lblLekar = new JLabel("Lekar: ");
-	private JTextField txtLekar = new JTextField(20);
+	private JComboBox<String> cbLekar = new JComboBox<String>();
+	
+	private JLabel lblPacijent = new JLabel("Pacijent: ");
+	private JComboBox<String> cbPacijent = new JComboBox<String>();
 	
 	private JLabel lblSoba = new JLabel("Soba: ");
 	private JTextField txtSoba = new JTextField(20);
@@ -69,11 +66,19 @@ public class PregledUpdate extends JFrame {
 		MigLayout mig = new MigLayout("wrap 2");
 		setLayout(mig);
 		
+		for(Lekar lekar : this.domZdravlja.getLekare()) {
+			cbLekar.addItem(lekar.getKorisnickoime());
+		}
+		
+		for(Pacijent pacijent : this.domZdravlja.getPacijente()) {
+			cbPacijent.addItem(pacijent.getKorisnickoime());
+		}
+		
 		add(lblIdent);					add(txtIdent);
 		add(lblZatrazenDatum);			add(txtZatrazenDatum);
 		add(lblOpis);					add(txtOpis);
-		add(lblPacijent);				add(txtPacijent);
-		add(lblLekar);					add(txtLekar);
+		add(lblLekar);					add(cbLekar);
+		add(lblPacijent);				add(cbPacijent);
 		add(lblSoba);					add(txtSoba);
 		add(lblStatusPregleda);			add(cbStatusPregleda,"wrap 10");
 		add(new JLabel());				add(btnOk,"split 2");		add(btnOtkazi);
@@ -83,9 +88,8 @@ public class PregledUpdate extends JFrame {
 		txtIdent.setEnabled(false);
 		txtZatrazenDatum.setText(String.valueOf(pregled.getZatrazenDatum()));
 		txtOpis.setText(pregled.getOpis());
-		txtPacijent.setText(pregled.getPacijent().getKorisnickoime());
-		txtPacijent.setEnabled(false);
-		txtLekar.setText(pregled.getLekar().getKorisnickoime());
+		cbLekar.setSelectedItem(this.pregled.getLekar().getKorisnickoime());
+		cbPacijent.setSelectedItem(this.pregled.getPacijent().getKorisnickoime());
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
 		cbStatusPregleda.setSelectedItem(pregled.getStatus());
 	}
@@ -105,16 +109,8 @@ public class PregledUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- Opis";
 		}
-		if(txtPacijent.getText().trim().equals("")){
-			ok = false;
-			poruka += "\n- Pacijent";
-		}
-		if(txtLekar.getText().trim().equals("")){
-			ok = false;
-			poruka += "\n- Lekar";
-		}
 		try{
-			Double.parseDouble(txtSoba.getText().trim());
+			Integer.parseInt(txtSoba.getText().trim());
 		}catch(NumberFormatException e){
 			ok = false;
 			poruka += "\n- Soba";
@@ -132,25 +128,33 @@ public class PregledUpdate extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(validacija()){
 					String ident = txtIdent.getText().trim();
+					
 					Date zatrazenDatum = Calendar.getInstance().getTime();  
 					DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
 					String strDate = dateFormat.format(txtZatrazenDatum.getText().trim());
+					System.out.println(strDate);
+					
 					String opis = txtOpis.getText().trim();
-					String pac = txtPacijent.getSelectedText().toString();
-					Pacijent pacijent = domZdravlja.nadjiPacijenta(pac);
-					String lek = txtLekar.getSelectedText().toString();
-					Lekar lekar = domZdravlja.nadjiLekara(lek);
+					
+					String korisnickoime = (String) cbLekar.getSelectedItem();
+					Lekar lekar = domZdravlja.nadjiLekara(korisnickoime);
+					
+					String korisnickoime1 = (String) cbPacijent.getSelectedItem();
+					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime1);
+					
 					int soba = Integer.parseInt(txtSoba.getText().trim());
+					
 					StatusPregleda status = (StatusPregleda) cbStatusPregleda.getSelectedItem();
+					
 					if(pregled == null){ 	//DODAVANJE:
-						pregled = new Pregledi(ident, zatrazenDatum, opis, pacijent, lekar, soba, status);
+						pregled = new Pregledi(ident, zatrazenDatum, opis, lekar, pacijent, soba, status);
 						domZdravlja.dodajPreglede(pregled);
 					}else{		//IZMENA
 						pregled.setIdent(ident);
 						pregled.setZatrazenDatum(zatrazenDatum);
 						pregled.setOpis(opis);
-						pregled.setPacijent(pacijent);
 						pregled.setLekar(lekar);
+						pregled.setPacijent(pacijent);
 						pregled.setSoba(soba);
 						pregled.setStatus(status);
 					}

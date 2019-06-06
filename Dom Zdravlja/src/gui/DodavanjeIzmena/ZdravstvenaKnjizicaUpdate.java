@@ -27,7 +27,7 @@ public class ZdravstvenaKnjizicaUpdate extends JFrame {
 	private JLabel lblIdent = new JLabel("Ident: ");
 	private JTextField txtIdent = new JTextField(20);
 	
-	private JLabel lblDatum = new JLabel("Datum: ");
+	private JLabel lblDatum = new JLabel("Datum Isteka: ");
 	private JTextField txtDatum = new JTextField(20);
 	
 	private JLabel lblKategorijaOsiguranja = new JLabel("Kategorija Osiguranja: ");
@@ -97,6 +97,7 @@ public class ZdravstvenaKnjizicaUpdate extends JFrame {
 					Date datumIsteka = Calendar.getInstance().getTime();  
 					DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
 					String strDate = dateFormat.format(txtDatum.getText().trim());
+					System.out.println(strDate);
 					KategorijaOsiguranja kategorijaOsiguranja = 
 							(KategorijaOsiguranja) cbKategorijaOsiguranja.getSelectedItem();
 					

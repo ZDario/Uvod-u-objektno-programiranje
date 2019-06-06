@@ -60,7 +60,7 @@ public class MedicinskaSestraUpdate extends JFrame{
 	public MedicinskaSestraUpdate(DomZdravlja domZdravlja, MedicinskaSestra sestra){
 		this.domZdravlja = domZdravlja;
 		this.sestra = sestra;
-		String korisnickoime = sestra == null ? "Dodavanje nove Medicinske Sestre" : "Izmena podataka o Medicinskoj Sestri" + sestra.getKorisnickoime();
+		String korisnickoime = sestra == null ? "Dodavanje nove Medicinske Sestre " : "Izmena podataka o Medicinskoj Sestri " + sestra.getKorisnickoime();
 		setTitle(korisnickoime);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -97,6 +97,7 @@ public class MedicinskaSestraUpdate extends JFrame{
 		txtAdresa.setText(sestra.getAdresa());
 		txtTelefon.setText(sestra.getTelefon());
 		txtKorisnickoIme.setText(sestra.getKorisnickoime());
+		txtKorisnickoIme.setEnabled(false);
 		txtLozinka.setText(sestra.getLozinka());
 		cbPol.setSelectedItem(sestra.getPol());
 		cbPol.setEnabled(false);

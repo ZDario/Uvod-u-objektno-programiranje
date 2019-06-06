@@ -15,9 +15,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import domZdravlja.DomZdravlja;
-import gui.DodavanjeIzmena.PacijentUpdate;
 import gui.DodavanjeIzmena.PregledUpdate;
-import korisnici.Pacijent;
 import pregledi.Pregledi;
 
 public class PreglediLista extends JFrame {
@@ -46,7 +44,7 @@ public class PreglediLista extends JFrame {
 		toolbar.add(btnRemove);
 		add(toolbar, BorderLayout.NORTH);
 		String[] zaglavlje = new String[] {
-				"Ident","Zatrazen Datum","Opis","Pacijent","Lekar","Soba","Status"
+				"Ident","Zatrazen Datum","Opis","Lekar","Pacijent","Soba","Status"
 		};
 		Object[][] sadrzaj = new Object[domZdravlja.getPreglede().size()][zaglavlje.length];
 		
@@ -55,8 +53,8 @@ public class PreglediLista extends JFrame {
 			sadrzaj[i][0] = pregled.getIdent();
 			sadrzaj[i][1] = pregled.getZatrazenDatum();
 			sadrzaj[i][2] = pregled.getOpis();
-			sadrzaj[i][3] = pregled.getPacijent().getKorisnickoime();
-			sadrzaj[i][4] = pregled.getLekar().getKorisnickoime();
+			sadrzaj[i][3] = pregled.getLekar().getKorisnickoime();
+			sadrzaj[i][4] = pregled.getPacijent().getKorisnickoime();
 			sadrzaj[i][5] = pregled.getSoba();
 			sadrzaj[i][6] = pregled.getStatus();
 		}

@@ -4,8 +4,8 @@ import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
 public class Pacijent extends Korisnici {
 	
-	private Lekar izabraniLekar;
 	private ZdravstvenaKnjizica knjizica;
+	private Lekar izabraniLekar;
 	
 	public Pacijent() {
 		this.izabraniLekar = new Lekar();
@@ -14,9 +14,16 @@ public class Pacijent extends Korisnici {
 	public Pacijent(String ime, String prezime, String jmbg, 
 			String adresa, String telefon, String korisnickoime, String lozinka,
 			Pol pol, Uloga uloga,
-			Lekar izabraniLekar, ZdravstvenaKnjizica knjizica) {
+			ZdravstvenaKnjizica knjizica, Lekar izabraniLekar ) {
 		super(ime,prezime,jmbg,adresa,telefon,korisnickoime,lozinka,pol,uloga);
+		this.knjizica = knjizica;
 		this.izabraniLekar = izabraniLekar;
+		
+	}
+	public ZdravstvenaKnjizica getKnjizica() {
+		return knjizica;
+	}
+	public void setKnjizica(ZdravstvenaKnjizica knjizica) {
 		this.knjizica = knjizica;
 	}
 	public Lekar getIzabraniLekar() {
@@ -25,17 +32,11 @@ public class Pacijent extends Korisnici {
 	public void setIzabraniLekar(Lekar izabraniLekar) {
 		this.izabraniLekar = izabraniLekar;
 	}
-	public ZdravstvenaKnjizica getKnjizica() {
-		return knjizica;
-	}
-	public void setKnjizica(ZdravstvenaKnjizica knjizica) {
-		this.knjizica = knjizica;
-	}
 	@Override
 	public String toString() {
 		return "PACIJENT\n"
 				+ super.toString() 
-				+"\nIzabrani Lekar: " + this.izabraniLekar
-				+"\nID Knjizice: " + this.knjizica;
+				+"\nID Knjizice: " + this.knjizica
+				+"\nIzabrani Lekar: " + this.izabraniLekar;
 	}
 }

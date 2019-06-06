@@ -10,16 +10,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import domZdravlja.DomZdravlja;
-import gui.MedicinskaSestraLoginProzor;
 import gui.Liste.LekariLista;
 import gui.Liste.MedicinskeSestreLista;
 import gui.Liste.PacijentiLista;
 import gui.Liste.PreglediLista;
 import gui.Liste.ZdravstveneKnjiziceLista;
-import korisnici.Lekar;
 import korisnici.MedicinskaSestra;
 import net.miginfocom.swing.MigLayout;
-import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
 public class MedicinskaSestraMeni extends JFrame {
 	
@@ -27,7 +24,7 @@ public class MedicinskaSestraMeni extends JFrame {
 	private JButton btnSestre =  new JButton("Lista Medicinskih Sestri");
 	private JButton btnPacijenti = new JButton("Lista Pacijenata");
 	private JButton btnZdravstveneKnjizice = new JButton("Lista Zdravstvenih Knjizica");
-	private JButton btnPregledi = new JButton("Pregledi");
+	private JButton btnPregledi = new JButton("Lista Pregleda");
 	private JButton btnCancel = new JButton("Zatvori");
 	
 	private JLabel lbl = new JLabel("Izaberite Opciju");
@@ -113,8 +110,8 @@ public class MedicinskaSestraMeni extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PreglediLista pregledlista = new PreglediLista(domZdravlja);
-				pregledlista.setVisible(true);
+				PreglediLista pregledLista = new PreglediLista(domZdravlja);
+				pregledLista.setVisible(true);
 			}
 		});
 		btnCancel.addActionListener(new ActionListener() {

@@ -1,2 +1,2 @@
-Milovan|Milovanovic|347843|Djure Domoni 54|0683242342|M.Milovanovic|324235m|Muski|Pacijent|P.Peric|557
-Sara|Saric|235323|Mihala Babinke 12|0602143242|S.Saric|764245s|Zenski|Pacijent|I.Ivanovic|634
+Milovan|Milovanovic|347843|Djure Domoni 54|0683242342|M.Milovanovic|324235m|Muski|Pacijent|557|P.Peric
+Sara|Saric|235323|Mihala Babinke 12|0602143242|S.Saric|764245s|Zenski|Pacijent|634|I.Ivanovic

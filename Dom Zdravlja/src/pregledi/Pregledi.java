@@ -9,8 +9,8 @@ public class Pregledi {
 	private String ident;
 	private Date zatrazenDatum;
 	private String opis;
-	private Pacijent pacijent;
 	private Lekar lekar;
+	private Pacijent pacijent;
 	private int soba;
 	private StatusPregleda status;
 	
@@ -25,14 +25,14 @@ public class Pregledi {
 		
 	}
 	
-	public Pregledi(String ident, Date zatrazenDatum,  String opis, Pacijent pacijent,
-			 Lekar lekar, int soba, StatusPregleda status) {
+	public Pregledi(String ident, Date zatrazenDatum,  String opis, Lekar lekar, 
+			Pacijent pacijent, int soba, StatusPregleda status) {
 		super();
 		this.ident = ident;
 		this.zatrazenDatum = zatrazenDatum;
 		this.opis = opis;
-		this.pacijent = pacijent;
 		this.lekar = lekar;
+		this.pacijent = pacijent;
 		this.soba = soba;
 		this.status = status;
 	}
@@ -53,20 +53,20 @@ public class Pregledi {
 		this.opis = opis;
 	}
 
-	public Pacijent getPacijent() {
-		return pacijent;
-	}
-
-	public void setPacijent(Pacijent pacijent) {
-		this.pacijent = pacijent;
-	}
-
 	public Lekar getLekar() {
 		return lekar;
 	}
 
 	public void setLekar(Lekar lekar) {
 		this.lekar = lekar;
+	}
+	
+	public Pacijent getPacijent() {
+		return pacijent;
+	}
+
+	public void setPacijent(Pacijent pacijent) {
+		this.pacijent = pacijent;
 	}
 
 	public int getSoba() {
@@ -99,8 +99,8 @@ public class Pregledi {
 				+"\nIdent: " + this.ident
 				+"\nDatum: " + this.zatrazenDatum 
 				+ "\nKratak opis pregleda: " + this.opis
-				+ "\nPacijent: " + this.pacijent
 				+ "\nLekar: " + this.lekar
+				+ "\nPacijent: " + this.pacijent
 				+"\nSoba: " + this.soba
 				+"\nStatus pregleda: " + this.status;
 	}

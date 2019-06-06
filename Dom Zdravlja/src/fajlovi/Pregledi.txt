@@ -1,2 +1,2 @@
-92138|13-04-2019|Groznica|S.Saric|I.Ivanovic|7|Zavrsen
-92139|25-06-2019|Pregled zuba|M.Milovanovic|M.Mihajlovic|3|Zakazan
+92138|13-04-2019|Groznica|I.Ivanovic|S.Saric|7|Zavrsen
+92139|25-06-2019|Pregled zuba|M.Mihajlovic|M.Milovanovic|3|Zakazan

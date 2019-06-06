@@ -46,11 +46,11 @@ public class PacijentUpdate extends JFrame {
 	private JLabel lblUloga = new JLabel("Uloga: ");
 	private JComboBox<Uloga> cbUloga = new JComboBox<Uloga>(Uloga.values());
 	
-	private JLabel lblIzabraniLekar = new JLabel("Izabrani Lekar");
-	private JTextField txtIzabraniLekar = new JTextField(20);
-	
 	private JLabel lblZdravstvenaKnjizica = new JLabel("Zdravstvena Knjizica");
-	private JTextField txtZdravstvenaKnjizica = new JTextField(20);
+	private JComboBox<String> cbZdravstvenaKnjizica = new JComboBox<String>();
+	
+	private JLabel lblIzabraniLekar = new JLabel("Izabrani Lekar");
+	private JComboBox<String> cbIzabraniLekar = new JComboBox<String>();
 	
 	
 	
@@ -62,7 +62,7 @@ public class PacijentUpdate extends JFrame {
 	public PacijentUpdate(DomZdravlja domZdravlja, Pacijent pacijent){
 		this.domZdravlja = domZdravlja;
 		this.pacijent = pacijent;
-		String korisnickoime = pacijent == null ? "Dodavanje novog Pacijenta" : "Izmena podataka o Pacijentu" + pacijent.getKorisnickoime();
+		String korisnickoime = pacijent == null ? "Dodavanje novog Pacijenta " : "Izmena podataka o Pacijentu " + pacijent.getKorisnickoime();
 		setTitle(korisnickoime);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -76,6 +76,14 @@ public class PacijentUpdate extends JFrame {
 		MigLayout mig = new MigLayout("wrap 2");
 		setLayout(mig);
 		
+		for(ZdravstvenaKnjizica knjizica : this.domZdravlja.getZdravstvenaKnjizice()) {
+			cbZdravstvenaKnjizica.addItem(knjizica.getIdent());
+		}
+		
+		for(Lekar lekar : this.domZdravlja.getLekare()) {
+			cbIzabraniLekar.addItem(lekar.getKorisnickoime());
+		}
+		
 		add(lblIme);					add(txtIme);
 		add(lblPrezime);				add(txtPrezime);
 		add(lblJmbg);					add(txtJmbg);
@@ -85,8 +93,8 @@ public class PacijentUpdate extends JFrame {
 		add(lblLozinka);				add(txtLozinka);
 		add(lblPol);					add(cbPol);
 		add(lblUloga);					add(cbUloga); 		cbUloga.setSelectedItem(Uloga.Pacijent);	cbUloga.setEnabled(false);
-		add(lblIzabraniLekar);			add(txtIzabraniLekar);
-		add(lblZdravstvenaKnjizica);	add(txtZdravstvenaKnjizica,"wrap 10");
+		add(lblZdravstvenaKnjizica);	add(cbZdravstvenaKnjizica);
+		add(lblIzabraniLekar);			add(cbIzabraniLekar,"wrap 10");
 		add(new JLabel());				add(btnOk,"split 2");		add(btnOtkazi);
 	}
 	private void popuniPolja() {
@@ -99,14 +107,16 @@ public class PacijentUpdate extends JFrame {
 		txtAdresa.setText(pacijent.getAdresa());
 		txtTelefon.setText(pacijent.getTelefon());
 		txtKorisnickoIme.setText(pacijent.getKorisnickoime());
+		txtKorisnickoIme.setEnabled(false);
 		txtLozinka.setText(pacijent.getLozinka());
 		cbPol.setSelectedItem(pacijent.getPol());
 		cbPol.setEnabled(false);
 		pacijent.getUloga();
 		cbUloga.setSelectedItem(Uloga.Pacijent);
 		cbUloga.setEnabled(false);
-		txtIzabraniLekar.setText(pacijent.getIzabraniLekar().getKorisnickoime());
-		txtZdravstvenaKnjizica.setText(pacijent.getKnjizica().getIdent());
+		cbZdravstvenaKnjizica.setSelectedItem(this.pacijent.getKnjizica().getIdent());
+		cbZdravstvenaKnjizica.setEnabled(false);
+		cbIzabraniLekar.setSelectedItem(this.pacijent.getIzabraniLekar().getKorisnickoime());
 	}
 	private boolean validacija(){
 		boolean ok = true;
@@ -140,14 +150,6 @@ public class PacijentUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- Lozinka";
 		}
-		if(txtIzabraniLekar.getText().trim().equals("")){
-			ok = false;
-			poruka += "\n- Izabrani Lekar";
-		}
-		if(txtZdravstvenaKnjizica.getText().trim().equals("")){
-			ok = false;
-			poruka += "\n- Zdravstvena Knjizica";
-		}
 		if(!ok){
 			JOptionPane.showMessageDialog(null, poruka,"Validacija",JOptionPane.WARNING_MESSAGE);
 		}
@@ -165,17 +167,17 @@ public class PacijentUpdate extends JFrame {
 					String jmbg = txtJmbg.getText().trim();
 					String adresa = txtAdresa.getText().trim();
 					String telefon = txtTelefon.getText().trim();
-					String korisnickoime = txtKorisnickoIme.getText().trim();
+					String korisnickoime1 = txtKorisnickoIme.getText().trim();
 					String lozinka = txtLozinka.getText().trim();
 					Pol pol = (Pol) cbPol.getSelectedItem();
 					Uloga uloga = (Uloga) cbUloga.getSelectedItem();
-					String izlekar = txtIzabraniLekar.getSelectedText().toString();
-					Lekar izabraniLekar = domZdravlja.nadjiLekara(izlekar);
-					String zdrknjizica = txtZdravstvenaKnjizica.getSelectedText().toString();
-					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicu(zdrknjizica);
+					String ident = (String) cbZdravstvenaKnjizica.getSelectedItem();
+					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicu(ident);
+					String korisnickoime2 = (String) cbIzabraniLekar.getSelectedItem();
+					Lekar izabraniLekar = domZdravlja.nadjiLekara(korisnickoime2);
 					if(pacijent == null){ 	//DODAVANJE:
-						pacijent = new Pacijent(ime, prezime, jmbg, adresa, telefon, korisnickoime, 
-								lozinka, pol, uloga, izabraniLekar, knjizica);
+						pacijent = new Pacijent(ime, prezime, jmbg, adresa, telefon, korisnickoime1, 
+								lozinka, pol, uloga, knjizica, izabraniLekar);
 						domZdravlja.dodajPacijenta(pacijent);
 					}else{		//IZMENA
 						pacijent.setIme(ime);
@@ -183,12 +185,12 @@ public class PacijentUpdate extends JFrame {
 						pacijent.setJmbg(jmbg);
 						pacijent.setAdresa(adresa);
 						pacijent.setTelefon(telefon);
-						pacijent.setKorisnickoime(korisnickoime);
+						pacijent.setKorisnickoime(korisnickoime1);
 						pacijent.setLozinka(lozinka);
 						pacijent.setPol(pol);
 						pacijent.setUloga(uloga);
-						pacijent.setIzabraniLekar(izabraniLekar);
 						pacijent.setKnjizica(knjizica);
+						pacijent.setIzabraniLekar(izabraniLekar);
 					}
 					domZdravlja.snimiPacijente();
 					PacijentUpdate.this.dispose();

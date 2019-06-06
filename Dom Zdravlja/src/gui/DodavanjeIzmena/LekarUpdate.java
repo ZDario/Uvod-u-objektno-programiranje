@@ -51,9 +51,9 @@ public class LekarUpdate extends JFrame {
 	private JLabel lblSluzba = new JLabel("Sluzba: ");
 	private JComboBox<SluzbeDomaZdravlja> cbSluzba = new JComboBox<SluzbeDomaZdravlja>(SluzbeDomaZdravlja.values());
 	
-	
 	private JLabel lblSpecijalizacija = new JLabel("Specijalizacija: ");
 	private JTextField txtSpecijalizacija = new JTextField(20);
+	
 	
 	private JButton btnOk = new JButton("OK");
 	private JButton btnOtkazi = new JButton("Otkazi");
@@ -63,7 +63,7 @@ public class LekarUpdate extends JFrame {
 	public LekarUpdate(DomZdravlja domZdravlja, Lekar lekar){
 		this.domZdravlja = domZdravlja;
 		this.lekar = lekar;
-		String korisnickoime = lekar == null ? "Dodavanje novog Lekara" : "Izmena podataka o lekaru" + lekar.getKorisnickoime();
+		String korisnickoime = lekar == null ? "Dodavanje novog Lekara " : "Izmena podataka o lekaru " + lekar.getKorisnickoime();
 		setTitle(korisnickoime);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -101,6 +101,7 @@ public class LekarUpdate extends JFrame {
 		txtAdresa.setText(lekar.getAdresa());
 		txtTelefon.setText(lekar.getTelefon());
 		txtKorisnickoIme.setText(lekar.getKorisnickoime());
+		txtKorisnickoIme.setEnabled(false);
 		txtLozinka.setText(lekar.getLozinka());
 		cbPol.setSelectedItem(lekar.getPol());
 		cbPol.setEnabled(false);
