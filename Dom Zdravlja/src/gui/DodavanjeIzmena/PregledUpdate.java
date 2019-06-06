@@ -3,9 +3,11 @@ package gui.DodavanjeIzmena;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -86,7 +88,8 @@ public class PregledUpdate extends JFrame {
 	private void popuniPolja() {
 		txtIdent.setText(pregled.getIdent());
 		txtIdent.setEnabled(false);
-		txtZatrazenDatum.setText(String.valueOf(pregled.getZatrazenDatum()));
+		GregorianCalendar datum=new GregorianCalendar(2018,12,01,00,00);
+		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(datum,domZdravlja.getFormatTermina())));
 		txtOpis.setText(pregled.getOpis());
 		cbLekar.setSelectedItem(this.pregled.getLekar().getKorisnickoime());
 		cbPacijent.setSelectedItem(this.pregled.getPacijent().getKorisnickoime());
@@ -101,9 +104,11 @@ public class PregledUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- Ident";
 		}
-		if(txtZatrazenDatum.getText().trim().equals("")){
+		try {
+			domZdravlja.getFormatTermina().parse(txtZatrazenDatum.getText().trim());
+		}catch (ParseException e) {
+			poruka += "- Datum mora biti formata dd.MM.yyyy. HH:mm\n";
 			ok = false;
-			poruka += "\n- Zatrazen Datum";
 		}
 		if(txtOpis.getText().trim().equals("")){
 			ok = false;
@@ -129,10 +134,7 @@ public class PregledUpdate extends JFrame {
 				if(validacija()){
 					String ident = txtIdent.getText().trim();
 					
-					Date zatrazenDatum = Calendar.getInstance().getTime();  
-					DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
-					String strDate = dateFormat.format(txtZatrazenDatum.getText().trim());
-					System.out.println(strDate);
+					GregorianCalendar termin = domZdravlja.napraviDatumIVreme(txtZatrazenDatum.getText().trim());
 					
 					String opis = txtOpis.getText().trim();
 					
@@ -147,11 +149,11 @@ public class PregledUpdate extends JFrame {
 					StatusPregleda status = (StatusPregleda) cbStatusPregleda.getSelectedItem();
 					
 					if(pregled == null){ 	//DODAVANJE:
-						pregled = new Pregledi(ident, zatrazenDatum, opis, lekar, pacijent, soba, status);
+						pregled = new Pregledi(ident, termin, opis, lekar, pacijent, soba, status);
 						domZdravlja.dodajPreglede(pregled);
 					}else{		//IZMENA
 						pregled.setIdent(ident);
-						pregled.setZatrazenDatum(zatrazenDatum);
+						pregled.setZatrazenDatum(termin);
 						pregled.setOpis(opis);
 						pregled.setLekar(lekar);
 						pregled.setPacijent(pacijent);

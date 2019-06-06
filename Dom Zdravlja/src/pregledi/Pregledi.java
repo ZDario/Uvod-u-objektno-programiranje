@@ -3,11 +3,12 @@ package pregledi;
 import korisnici.Pacijent;
 import korisnici.Lekar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Pregledi {
 	
 	private String ident;
-	private Date zatrazenDatum;
+	private GregorianCalendar zatrazenDatum;
 	private String opis;
 	private Lekar lekar;
 	private Pacijent pacijent;
@@ -16,16 +17,16 @@ public class Pregledi {
 	
 	public Pregledi() {
 		this.ident = "";
-		this.zatrazenDatum = null;
+		this.zatrazenDatum = new GregorianCalendar();
 		this.opis = "";
 		this.pacijent = new Pacijent();
 		this.lekar = new Lekar();
 		this.soba = 0;
-		this.status = null;
+		this.status = StatusPregleda.Zatrazen;
 		
 	}
 	
-	public Pregledi(String ident, Date zatrazenDatum,  String opis, Lekar lekar, 
+	public Pregledi(String ident, GregorianCalendar zatrazenDatum,  String opis, Lekar lekar, 
 			Pacijent pacijent, int soba, StatusPregleda status) {
 		super();
 		this.ident = ident;
@@ -37,11 +38,11 @@ public class Pregledi {
 		this.status = status;
 	}
 
-	public Date getZatrazenDatum() {
+	public GregorianCalendar getZatrazenDatum() {
 		return zatrazenDatum;
 	}
 
-	public void setZatrazenDatum(Date zatrazenDatum) {
+	public void setZatrazenDatum(GregorianCalendar zatrazenDatum) {
 		this.zatrazenDatum = zatrazenDatum;
 	}
 

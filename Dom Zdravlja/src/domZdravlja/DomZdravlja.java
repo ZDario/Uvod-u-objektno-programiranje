@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import korisnici.Lekar;
 import korisnici.MedicinskaSestra;
@@ -30,6 +31,8 @@ public class DomZdravlja {
 	private ArrayList<Pacijent> pacijenti;
 	private ArrayList<ZdravstvenaKnjizica> knjizice;
 	private ArrayList<Pregledi> pregledi;
+	SimpleDateFormat formatKnjizice = new SimpleDateFormat("dd.MM.yyyy.");
+	SimpleDateFormat formatTermina = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
 	
 	public DomZdravlja() {
 		this.lekari = new ArrayList<Lekar>();
@@ -158,6 +161,60 @@ public class DomZdravlja {
 	
 	
 	
+	//FUNKCIJE ZA VREME
+	
+	public SimpleDateFormat getFormatKnjizice() {
+		return formatKnjizice;
+	}
+	
+	public void setFormatKnjizice(SimpleDateFormat formatKnjizice) {
+		this.formatKnjizice = formatKnjizice;
+	}
+	
+	public SimpleDateFormat getFormatTermina() {
+		return formatTermina;
+	}
+	
+	public void setFormatTermina(SimpleDateFormat formatTermina) {
+		this.formatTermina = formatTermina;
+	}
+	
+	
+	
+	public GregorianCalendar napraviDatumIVreme(String d) {
+		String[] split = d.split("\\ ");
+		String[] datum = split[0].split("\\.");
+		String[] vreme = split[1].split("\\:");
+		int dan = Integer.parseInt(datum[0]);
+		int mesec = Integer.parseInt(datum[1]);
+		int godina = Integer.parseInt(datum[2]);
+		int sat = Integer.parseInt(vreme[0]);
+		int minute = Integer.parseInt(vreme[1]);
+		GregorianCalendar termin = new GregorianCalendar(godina,mesec-1,dan,sat,minute);
+		return termin;
+	}
+	public GregorianCalendar napraviDatum(String d) {
+		String[] datum1 = d.split("\\.");
+		int dan = Integer.parseInt(datum1[0]);
+		int mesec = Integer.parseInt(datum1[1]);
+		int godina = Integer.parseInt(datum1[2]);
+		GregorianCalendar datum = new GregorianCalendar(godina,mesec-1,dan);
+		return datum;
+	}
+	public String VremeUString(GregorianCalendar termin,SimpleDateFormat f) {
+		String d = f.format(termin.getTime());
+		return d;
+	}
+	public GregorianCalendar FormatTermina() {
+		SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+		GregorianCalendar Datum= new GregorianCalendar();
+		format.format(Datum.getTime());
+		return Datum;
+	}
+	
+	
+	
+	
 	//FUNKCIJE UCITAVANJA
 	
 	public void ucitajLekare() {
@@ -258,9 +315,7 @@ public class DomZdravlja {
 			while ((line = reader.readLine()) != null) {
 				String[] split = line.split("\\|");
 				String ident = split[0];
-				String string = split[1];
-				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-				Date datumIsteka = format.parse(string);
+				GregorianCalendar datumIsteka = napraviDatum(split[1]);
 				KategorijaOsiguranja kategorijaosiguranja = KategorijaOsiguranja.valueOf(split[2]);
 				ZdravstvenaKnjizica knjizica = new ZdravstvenaKnjizica(ident,datumIsteka,kategorijaosiguranja);
 				knjizice.add(knjizica);
@@ -280,9 +335,7 @@ public class DomZdravlja {
 			while ((line = reader.readLine()) != null) {
 				String[] split = line.split("\\|");
 				String ident = split[0];
-				String string = split[1];
-				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-				Date zatrazenDatum = format.parse(string);
+				GregorianCalendar zatrazenDatum = napraviDatumIVreme(split[1]);
 				String opis= split[2];
 				Lekar izabraniLekar = nadjiLekara(split[3]);
 				Pacijent pacijent = nadjiPacijenta(split[4]);
@@ -367,12 +420,7 @@ public class DomZdravlja {
 			File file = new File("src/fajlovi/Zdravstvena Knjizica.txt");
 			String content = "";
 			for (ZdravstvenaKnjizica knjizica : knjizice) {
-				
-				Date datumisteka = knjizica.getDatumIsteka(); 
-			    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
-			    String strDate = formatter.format(datumisteka);
-			    
-				content += knjizica.getIdent() + "|" + strDate + "|"
+				content += knjizica.getIdent() + "|" + VremeUString(knjizica.getDatumIsteka(),formatKnjizice) + "|"
 						+ knjizica.getKategorijaosiguranja() + "\n";
 			}
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -388,12 +436,7 @@ public class DomZdravlja {
 			File file = new File("src/fajlovi/Pregledi.txt");
 			String content = "";
 			for (Pregledi pregled : pregledi) {
-				
-				Date zatrazendatum = pregled.getZatrazenDatum(); 
-			    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
-			    String strDate = formatter.format(zatrazendatum);
-				
-				content += pregled.getIdent() + "|" + strDate + "|" + pregled.getOpis() + "|"
+				content += pregled.getIdent() + "|" + VremeUString(pregled.getZatrazenDatum(), formatTermina) + "|" + pregled.getOpis() + "|"
 						+ pregled.getLekar().getKorisnickoime() + "|" 
 						+ pregled.getPacijent().getKorisnickoime() + "|" 
 						+ pregled.getSoba() + "|" 
@@ -406,7 +449,7 @@ public class DomZdravlja {
 			System.out.println("Greska prilikom snimanja pregleda.");
 		}
 	}
-	
+
 	
 	
 	//FUNKCIJE LOGIN

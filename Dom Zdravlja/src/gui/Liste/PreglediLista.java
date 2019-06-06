@@ -51,7 +51,7 @@ public class PreglediLista extends JFrame {
 		for(int i=0;i<domZdravlja.getPreglede().size();i++) {
 			Pregledi pregled = domZdravlja.getPreglede().get(i);
 			sadrzaj[i][0] = pregled.getIdent();
-			sadrzaj[i][1] = pregled.getZatrazenDatum();
+			sadrzaj[i][1] = domZdravlja.VremeUString(pregled.getZatrazenDatum(),domZdravlja.getFormatTermina());
 			sadrzaj[i][2] = pregled.getOpis();
 			sadrzaj[i][3] = pregled.getLekar().getKorisnickoime();
 			sadrzaj[i][4] = pregled.getPacijent().getKorisnickoime();

@@ -28,9 +28,9 @@ public class DomZdravljaMain {
 	
 	public static void main(String[] args) {
 		DomZdravlja domzdravlja = new DomZdravlja();
+		domzdravlja.ucitajZdravstveneKnjizice();
 		domzdravlja.ucitajLekare();
 		domzdravlja.ucitajMedicinskeSestre();
-		domzdravlja.ucitajZdravstveneKnjizice();
 		domzdravlja.ucitajPacijente();
 		domzdravlja.ucitajPreglede();
 		

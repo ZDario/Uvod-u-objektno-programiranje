@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 import domZdravlja.DomZdravlja;
 import domZdravlja.SluzbeDomaZdravlja;
 import korisnici.Lekar;
+import korisnici.MedicinskaSestra;
+import korisnici.Pacijent;
 import korisnici.Pol;
 import korisnici.Uloga;
 import net.miginfocom.swing.MigLayout;
@@ -139,6 +141,33 @@ public class LekarUpdate extends JFrame {
 		if(txtKorisnickoIme.getText().trim().equals("")){
 			ok = false;
 			poruka += "\n- Korisnicko Ime";
+		}
+		for(Lekar lekar : domZdravlja.getLekare()) {
+			if(lekar.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || lekar.getJmbg().equals(txtJmbg.getText().trim())) {
+				ok = false;
+				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
+			}
+			else if(lekar.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || lekar.getJmbg().equals(txtJmbg.getText().trim())) {
+				ok=true;
+			}
+		}
+		for(MedicinskaSestra sestra : domZdravlja.getMedicinskaSestre()) {
+			if(sestra.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || sestra.getJmbg().equals(txtJmbg.getText().trim())) {
+				ok = false;
+				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
+			}
+			else if(sestra.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || sestra.getJmbg().equals(txtJmbg.getText().trim())) {
+				ok=true;
+			}
+		}
+		for(Pacijent pacijent : domZdravlja.getPacijente()) {
+			if(pacijent.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || pacijent.getJmbg().equals(txtJmbg.getText().trim())) {
+				ok = false;
+				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
+			}
+			else if(pacijent.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || pacijent.getJmbg().equals(txtJmbg.getText().trim())) {
+				ok=true;
+			}
 		}
 		if(txtLozinka.getText().trim().equals("")){
 			ok = false;

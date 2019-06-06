@@ -1,20 +1,21 @@
 package zdravstvenaKnjizica;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ZdravstvenaKnjizica {
 
 	private String ident;
-	private Date datumIsteka;
+	private GregorianCalendar datumIsteka;
 	private KategorijaOsiguranja kategorijaosiguranja;
 	
 	
 	public ZdravstvenaKnjizica() {
 		this.ident = "";
-		this.datumIsteka = null;
-		this.kategorijaosiguranja = null;
+		this.datumIsteka = new GregorianCalendar();
+		this.kategorijaosiguranja = KategorijaOsiguranja.Prva;
 	}
-	public ZdravstvenaKnjizica(String ident, Date datumIsteka, 
+	public ZdravstvenaKnjizica(String ident, GregorianCalendar datumIsteka, 
 			KategorijaOsiguranja kategorijaosiguranja) {
 		super();
 		this.ident = ident;
@@ -28,10 +29,10 @@ public class ZdravstvenaKnjizica {
 	public void setId(String ident) {
 		this.ident = ident;
 	}
-	public Date getDatumIsteka() {
+	public GregorianCalendar getDatumIsteka() {
 		return datumIsteka;
 	}
-	public void setDatumIsteka(Date datumIsteka) {
+	public void setDatumIsteka(GregorianCalendar datumIsteka) {
 		this.datumIsteka = datumIsteka;
 	}
 	public KategorijaOsiguranja getKategorijaosiguranja() {

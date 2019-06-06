@@ -3,9 +3,11 @@ package gui.DodavanjeIzmena;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -65,7 +67,7 @@ public class ZdravstvenaKnjizicaUpdate extends JFrame {
 	private void popuniPolja() {
 		txtIdent.setText(knjizica.getIdent());
 		txtIdent.setEnabled(false);
-		txtDatum.setText(String.valueOf(knjizica.getDatumIsteka()));
+		txtDatum.setText(domZdravlja.VremeUString(knjizica.getDatumIsteka(), domZdravlja.getFormatKnjizice()));
 		cbKategorijaOsiguranja.setSelectedItem(knjizica.getKategorijaosiguranja());
 		
 	}
@@ -77,9 +79,11 @@ public class ZdravstvenaKnjizicaUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- Ident";
 		}
-		if(txtDatum.getText().trim().equals("")){
+		try {
+			domZdravlja.getFormatKnjizice().parse(txtDatum.getText().trim());
+		}catch (ParseException e) {
+			poruka += "- Datum mora biti formata dd.MM.yyyy\n";
 			ok = false;
-			poruka += "\n- Datum Isteka";
 		}
 		if(!ok){
 			JOptionPane.showMessageDialog(null, poruka,"Validacija",JOptionPane.WARNING_MESSAGE);
@@ -94,10 +98,7 @@ public class ZdravstvenaKnjizicaUpdate extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if(validacija()){
 					String ident = txtIdent.getText().trim();	
-					Date datumIsteka = Calendar.getInstance().getTime();  
-					DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");  
-					String strDate = dateFormat.format(txtDatum.getText().trim());
-					System.out.println(strDate);
+					GregorianCalendar datumIsteka = domZdravlja.napraviDatum(txtDatum.getText().trim());
 					KategorijaOsiguranja kategorijaOsiguranja = 
 							(KategorijaOsiguranja) cbKategorijaOsiguranja.getSelectedItem();
 					

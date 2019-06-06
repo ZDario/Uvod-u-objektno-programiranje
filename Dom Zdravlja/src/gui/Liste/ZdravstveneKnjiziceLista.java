@@ -53,7 +53,7 @@ public class ZdravstveneKnjiziceLista extends JFrame {
 		for(int i=0;i<domZdravlja.getZdravstvenaKnjizice().size();i++) {
 			ZdravstvenaKnjizica knjizica = domZdravlja.getZdravstvenaKnjizice().get(i);
 			sadrzaj[i][0] = knjizica.getIdent();
-			sadrzaj[i][1] = knjizica.getDatumIsteka();
+			sadrzaj[i][1] = domZdravlja.VremeUString(knjizica.getDatumIsteka(),domZdravlja.getFormatKnjizice());
 			sadrzaj[i][2] = knjizica.getKategorijaosiguranja();
 		}
 		DefaultTableModel model = new DefaultTableModel(sadrzaj, zaglavlje);
