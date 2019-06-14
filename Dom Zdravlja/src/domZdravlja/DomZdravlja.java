@@ -6,10 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import korisnici.Lekar;
@@ -159,6 +157,26 @@ public class DomZdravlja {
 		return null;
 	}
 	
+	
+	public ArrayList<Pregledi> pronadjiPregledeLekar(String korisnickoime){
+		ArrayList<Pregledi> pregledLekara=new ArrayList<Pregledi>();
+		for(Pregledi pregled:pregledi){
+			if((pregled.getLekar().getKorisnickoime().equals(korisnickoime)) && ((pregled.getStatus()==StatusPregleda.Zakazan) || (pregled.getStatus()==StatusPregleda.Otkazan) || (pregled.getStatus()==StatusPregleda.Zavrsen))){
+				pregledLekara.add(pregled);
+			}
+		}
+		return pregledLekara;
+	}
+	
+	public ArrayList<Pregledi> pronadjiPregledePacijent(String korisnickoime){
+		ArrayList<Pregledi> pregledPacijenta=new ArrayList<Pregledi>();
+		for(Pregledi pregled:pregledi){
+			if(pregled.getPacijent().getKorisnickoime().equals(korisnickoime)){
+				pregledPacijenta.add(pregled);
+			}
+		}
+		return pregledPacijenta;
+	}
 	
 	
 	//FUNKCIJE ZA VREME
@@ -477,5 +495,24 @@ public class DomZdravlja {
 			}
 		}
 		return null;
+	}
+	
+	
+	
+	
+	//FUNKCIJA RACUN
+	
+	public double napraviRacun(KategorijaOsiguranja kategorija){
+		double racun=0;
+		if (kategorija==KategorijaOsiguranja.Prva){
+			racun=300;
+		}
+		if (kategorija==KategorijaOsiguranja.Druga){
+			racun=50;
+		}
+		if (kategorija==KategorijaOsiguranja.Treca){
+			racun=0;
+		}
+		return racun;
 	}
 }

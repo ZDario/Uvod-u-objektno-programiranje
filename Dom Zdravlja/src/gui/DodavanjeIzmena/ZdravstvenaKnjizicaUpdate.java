@@ -22,6 +22,7 @@ import korisnici.Pacijent;
 import korisnici.Pol;
 import korisnici.Uloga;
 import net.miginfocom.swing.MigLayout;
+import pregledi.Pregledi;
 import zdravstvenaKnjizica.KategorijaOsiguranja;
 import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
@@ -79,10 +80,19 @@ public class ZdravstvenaKnjizicaUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- Ident";
 		}
+		for(ZdravstvenaKnjizica knjizica : domZdravlja.getZdravstvenaKnjizice()) {
+			if(knjizica.getIdent().equals(txtIdent.getText().trim())) {
+				ok = false;
+				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
+			}
+			else if(knjizica.getIdent().equals(txtIdent.getText().trim())) {
+				ok=true;
+			}
+		}
 		try {
 			domZdravlja.getFormatKnjizice().parse(txtDatum.getText().trim());
 		}catch (ParseException e) {
-			poruka += "- Datum mora biti formata dd.MM.yyyy\n";
+			poruka += "zn- Datum mora biti formata dd.MM.yyyy";
 			ok = false;
 		}
 		if(!ok){

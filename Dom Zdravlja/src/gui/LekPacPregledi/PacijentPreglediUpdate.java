@@ -1,12 +1,8 @@
-package gui.DodavanjeIzmena;
+package gui.LekPacPregledi;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
@@ -17,13 +13,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import domZdravlja.DomZdravlja;
+import gui.DodavanjeIzmena.PregledUpdate;
 import korisnici.Lekar;
 import korisnici.Pacijent;
 import net.miginfocom.swing.MigLayout;
 import pregledi.Pregledi;
 import pregledi.StatusPregleda;
 
-public class PregledUpdate extends JFrame {
+public class PacijentPreglediUpdate extends JFrame {
 	private JLabel lblIdent = new JLabel("Ident: ");
 	private JTextField txtIdent = new JTextField(20);
 	
@@ -43,7 +40,7 @@ public class PregledUpdate extends JFrame {
 	private JTextField txtSoba = new JTextField(20);
 	
 	private JLabel lblStatusPregleda = new JLabel("Status Pregleda: ");
-	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>(StatusPregleda.values());
+	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>();
 	
 
 	private JButton btnOk = new JButton("OK");
@@ -51,7 +48,7 @@ public class PregledUpdate extends JFrame {
 	private DomZdravlja domZdravlja;
 	private Pregledi pregled;
 	
-	public PregledUpdate(DomZdravlja domZdravlja, Pregledi pregled){
+	public PacijentPreglediUpdate(DomZdravlja domZdravlja, Pregledi pregled){
 		this.domZdravlja = domZdravlja;
 		this.pregled = pregled;
 		String ident = pregled == null ? "Dodavanje novog Pregleda" : "Izmena podataka o Pregledu" + pregled.getIdent();
@@ -79,10 +76,18 @@ public class PregledUpdate extends JFrame {
 		add(lblIdent);					add(txtIdent);
 		add(lblZatrazenDatum);			add(txtZatrazenDatum);
 		add(lblOpis);					add(txtOpis);
-		add(lblLekar);					add(cbLekar);
+		
+		add(lblLekar);					add(cbLekar);		
+		cbLekar.setEnabled(false);
+		
 		add(lblPacijent);				add(cbPacijent);
+		cbPacijent.setEnabled(false);
+		
 		add(lblSoba);					add(txtSoba);
 		add(lblStatusPregleda);			add(cbStatusPregleda,"wrap 10");
+		cbStatusPregleda.addItem(StatusPregleda.Zatrazen);
+		
+		
 		add(new JLabel());				add(btnOk,"split 2");		add(btnOtkazi);
 	}
 	private void popuniPolja() {
@@ -90,11 +95,17 @@ public class PregledUpdate extends JFrame {
 		txtIdent.setEnabled(false);
 		GregorianCalendar datum=new GregorianCalendar(2018,12,01,00,00);
 		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(datum,domZdravlja.getFormatTermina())));
+		txtZatrazenDatum.setEnabled(false);
 		txtOpis.setText(pregled.getOpis());
 		cbLekar.setSelectedItem(this.pregled.getLekar().getKorisnickoime());
+		cbLekar.setEnabled(false);
 		cbPacijent.setSelectedItem(this.pregled.getPacijent().getKorisnickoime());
+		cbPacijent.setEnabled(false);
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
+		txtSoba.setEnabled(false);
 		cbStatusPregleda.setSelectedItem(pregled.getStatus());
+		cbStatusPregleda.addItem(StatusPregleda.Otkazan);  
+		
 	}
 	private boolean validacija(){
 		boolean ok = true;
@@ -170,8 +181,8 @@ public class PregledUpdate extends JFrame {
 						pregled.setStatus(status);
 					}
 					domZdravlja.snimiPreglede();
-					PregledUpdate.this.dispose();
-					PregledUpdate.this.setVisible(false);	
+					PacijentPreglediUpdate.this.dispose();
+					PacijentPreglediUpdate.this.setVisible(false);	
 				}
 			}
 		});
@@ -179,8 +190,8 @@ public class PregledUpdate extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PregledUpdate.this.dispose();
-				PregledUpdate.this.setVisible(false);
+				PacijentPreglediUpdate.this.dispose();
+				PacijentPreglediUpdate.this.setVisible(false);
 			}
 		});
 	}

@@ -3,20 +3,25 @@ package gui.Liste;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import domZdravlja.DomZdravlja;
 import gui.DodavanjeIzmena.PregledUpdate;
+import korisnici.Pacijent;
 import pregledi.Pregledi;
+import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
 public class PreglediLista extends JFrame {
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/slike/add.gif"));
@@ -25,9 +30,13 @@ public class PreglediLista extends JFrame {
 	private JButton btnEdit = new JButton(editIcon);
 	private ImageIcon removeIcon = new ImageIcon(getClass().getResource("/slike/remove.gif"));
 	private JButton btnRemove = new JButton(removeIcon);
+	private JButton btnRacun = new JButton("Racun");
+	private JTextField txtRacun = new JTextField(20);
+	private JLabel lblCena= new JLabel("dinara.");
 	private JToolBar toolbar = new JToolBar();
 	private JTable tabela;
 	private DomZdravlja domZdravlja;
+	private ArrayList<Pregledi> pregledi= new ArrayList<Pregledi>();
 	
 	public PreglediLista(DomZdravlja domZdravlja) {
 		this.domZdravlja = domZdravlja;
@@ -42,6 +51,9 @@ public class PreglediLista extends JFrame {
 		toolbar.add(btnAdd);
 		toolbar.add(btnEdit);
 		toolbar.add(btnRemove);
+		toolbar.add(btnRacun);
+		toolbar.add(txtRacun);
+		toolbar.add(lblCena);
 		add(toolbar, BorderLayout.NORTH);
 		String[] zaglavlje = new String[] {
 				"Ident","Zatrazen Datum","Opis","Lekar","Pacijent","Soba","Status"
@@ -123,6 +135,23 @@ public class PreglediLista extends JFrame {
 						JOptionPane.showMessageDialog(null, "Nije moguce pronaci odabrani pregled!", "Greska", JOptionPane.ERROR_MESSAGE);
 					}
 				}	
+			}
+		});
+		btnRacun.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int red = tabela.getSelectedRow();
+				if (red == -1) {
+					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska",
+							JOptionPane.WARNING_MESSAGE);
+				}else{
+					String korisnickoime = tabela.getValueAt(red, 4).toString();
+					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
+					ZdravstvenaKnjizica knjizica=domZdravlja.nadjiKnjizicu(pacijent.getKorisnickoime());
+					double racun=domZdravlja.napraviRacun(knjizica.getKategorijaosiguranja());
+					txtRacun.setText(String.valueOf(racun));
+				}
 			}
 		});
 	}

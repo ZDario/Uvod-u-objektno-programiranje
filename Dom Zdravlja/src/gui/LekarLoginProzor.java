@@ -60,15 +60,15 @@ public class LekarLoginProzor extends JFrame {
 				String username = txtKorisnickoIme.getText().trim();
 				String password = new String(txtSifra.getPassword()).trim();
 				
-				MedicinskaSestra prijavljen = domZdravlja.login2(username, password);
+				Lekar prijavljen = domZdravlja.login1(username, password);
 				if(prijavljen == null) {
 					JOptionPane.showMessageDialog(null, "Neispravni login podaci","Prijava",JOptionPane.WARNING_MESSAGE);
 				}else {
-					MedicinskaSestra lekar = domZdravlja.login2(username, password);
+					Lekar lekar = domZdravlja.login1(username, password);
 					if(lekar !=null) {
 						LekarLoginProzor.this.setVisible(false);
 						LekarLoginProzor.this.dispose();
-						LekarMeni lekarMeni = new LekarMeni();
+						LekarMeni lekarMeni = new LekarMeni(domZdravlja, prijavljen.getKorisnickoime());
 						lekarMeni.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Pogrešni login podaci!");

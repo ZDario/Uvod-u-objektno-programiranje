@@ -147,24 +147,6 @@ public class PacijentUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- Korisnicko Ime";
 		}
-		for(Lekar lekar : domZdravlja.getLekare()) {
-			if(lekar.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || lekar.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok = false;
-				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
-			}
-			else if(lekar.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || lekar.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok=true;
-			}
-		}
-		for(MedicinskaSestra sestra : domZdravlja.getMedicinskaSestre()) {
-			if(sestra.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || sestra.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok = false;
-				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
-			}
-			else if(sestra.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || sestra.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok=true;
-			}
-		}
 		for(Pacijent pacijent : domZdravlja.getPacijente()) {
 			if(pacijent.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || pacijent.getJmbg().equals(txtJmbg.getText().trim())) {
 				ok = false;
