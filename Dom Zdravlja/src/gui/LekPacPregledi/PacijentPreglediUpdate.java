@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import domZdravlja.DomZdravlja;
-import gui.DodavanjeIzmena.PregledUpdate;
 import korisnici.Lekar;
 import korisnici.Pacijent;
 import net.miginfocom.swing.MigLayout;
@@ -65,11 +64,19 @@ public class PacijentPreglediUpdate extends JFrame {
 		MigLayout mig = new MigLayout("wrap 2");
 		setLayout(mig);
 		
-		for(Lekar lekar : this.domZdravlja.getLekare()) {
+//		for(Pregledi pregled : this.domZdravlja.getPreglede()) {
+//			cbLekar.addItem(pregled.getLekar().getKorisnickoime());
+//		}
+//		
+//		for(Pregledi pregled : this.domZdravlja.getPreglede()) {
+//			cbPacijent.addItem(pregled.getPacijent().getKorisnickoime());
+//		}
+		
+		for (Lekar lekar : this.domZdravlja.getLekare()) {
 			cbLekar.addItem(lekar.getKorisnickoime());
 		}
 		
-		for(Pacijent pacijent : this.domZdravlja.getPacijente()) {
+		for (Pacijent pacijent : this.domZdravlja.getPacijente()) {
 			cbPacijent.addItem(pacijent.getKorisnickoime());
 		}
 		
@@ -77,7 +84,7 @@ public class PacijentPreglediUpdate extends JFrame {
 		add(lblZatrazenDatum);			add(txtZatrazenDatum);
 		add(lblOpis);					add(txtOpis);
 		
-		add(lblLekar);					add(cbLekar);		
+		add(lblLekar);					add(cbLekar);
 		cbLekar.setEnabled(false);
 		
 		add(lblPacijent);				add(cbPacijent);
@@ -86,15 +93,14 @@ public class PacijentPreglediUpdate extends JFrame {
 		add(lblSoba);					add(txtSoba);
 		add(lblStatusPregleda);			add(cbStatusPregleda,"wrap 10");
 		cbStatusPregleda.addItem(StatusPregleda.Zatrazen);
-		
+		cbStatusPregleda.addItem(StatusPregleda.Otkazan);
 		
 		add(new JLabel());				add(btnOk,"split 2");		add(btnOtkazi);
 	}
 	private void popuniPolja() {
 		txtIdent.setText(pregled.getIdent());
 		txtIdent.setEnabled(false);
-		GregorianCalendar datum=new GregorianCalendar(2018,12,01,00,00);
-		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(datum,domZdravlja.getFormatTermina())));
+		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(this.pregled.getZatrazenDatum(),domZdravlja.getFormatTermina())));
 		txtZatrazenDatum.setEnabled(false);
 		txtOpis.setText(pregled.getOpis());
 		cbLekar.setSelectedItem(this.pregled.getLekar().getKorisnickoime());
@@ -103,8 +109,10 @@ public class PacijentPreglediUpdate extends JFrame {
 		cbPacijent.setEnabled(false);
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
 		txtSoba.setEnabled(false);
-		cbStatusPregleda.setSelectedItem(pregled.getStatus());
-		cbStatusPregleda.addItem(StatusPregleda.Otkazan);  
+		cbStatusPregleda.addItem(StatusPregleda.Zakazan);
+		cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+		cbStatusPregleda.setSelectedItem(this.pregled.getStatus());
+		cbStatusPregleda.setEnabled(false);  
 		
 	}
 	private boolean validacija(){

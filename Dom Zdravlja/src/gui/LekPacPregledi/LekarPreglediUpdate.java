@@ -80,8 +80,7 @@ public class LekarPreglediUpdate extends JFrame {
 	private void popuniPolja() {
 		txtIdent.setText(pregled.getIdent());
 		txtIdent.setEnabled(false);
-		GregorianCalendar datum=new GregorianCalendar(2018,12,01,00,00);
-		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(datum,domZdravlja.getFormatTermina())));
+		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(this.pregled.getZatrazenDatum(),domZdravlja.getFormatTermina())));
 		txtZatrazenDatum.setEnabled(false);
 		txtOpis.setText(pregled.getOpis());
 		txtOpis.setEnabled(false);
