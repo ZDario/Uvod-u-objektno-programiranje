@@ -2,11 +2,7 @@ package gui.DodavanjeIzmena;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
@@ -17,12 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import domZdravlja.DomZdravlja;
-import korisnici.Lekar;
-import korisnici.Pacijent;
-import korisnici.Pol;
-import korisnici.Uloga;
 import net.miginfocom.swing.MigLayout;
-import pregledi.Pregledi;
 import zdravstvenaKnjizica.KategorijaOsiguranja;
 import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
@@ -51,6 +42,8 @@ public class ZdravstvenaKnjizicaUpdate extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
+		txtIdent.setEnabled(false);
+		txtIdent.setText(String.valueOf(domZdravlja.pronadjiNajveciBrojZdravstveneKnjizice()+1));
 		initGUI();
 		if(this.knjizica != null) {popuniPolja();}
 		initListeners();

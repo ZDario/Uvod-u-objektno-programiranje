@@ -55,7 +55,8 @@ public class LekarUpdate extends JFrame {
 	private JTextField txtSpecijalizacija = new JTextField(20);
 	
 	
-	private JButton btnOk = new JButton("OK");
+	private JButton btnOk1 = new JButton("OK");
+	private JButton btnOk2 = new JButton("OK");
 	private JButton btnOtkazi = new JButton("Otkazi");
 	private DomZdravlja domZdravlja;
 	private Lekar lekar;
@@ -93,7 +94,9 @@ public class LekarUpdate extends JFrame {
 		cbSluzba.addItem(SluzbeDomaZdravlja.Stomatoloska_Sluzba);
 		cbSluzba.addItem(SluzbeDomaZdravlja.Sluzba_Zdravstvene_Zastite_Radnika);
 		add(lblSpecijalizacija);	add(txtSpecijalizacija,"wrap 10");
-		add(new JLabel());			add(btnOk,"split 2");		add(btnOtkazi);
+		add(new JLabel());			add(btnOk1,"split 3"); 
+		add(btnOk2);	btnOk2.setVisible(false);	btnOk2.setEnabled(false);	
+		add(btnOtkazi);
 	}
 	private void popuniPolja() {
 		txtIme.setText(lekar.getIme());
@@ -115,8 +118,12 @@ public class LekarUpdate extends JFrame {
 		txtPlata.setText(String.valueOf(lekar.getPlata()));
 		cbSluzba.setSelectedItem(lekar.getSluzba());
 		txtSpecijalizacija.setText(lekar.getSpecijalizacija());
+		btnOk1.setVisible(false);
+		btnOk1.setEnabled(false);
+		btnOk2.setVisible(true);
+		btnOk2.setEnabled(true);
 	}
-	private boolean validacija(){
+	private boolean validacija1(){
 		boolean ok = true;
 		String poruka = "Proverite unos u sledecim poljima: ";
 		
@@ -144,14 +151,41 @@ public class LekarUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- Korisnicko Ime";
 		}
-		for(Lekar lekar : domZdravlja.getLekare()) {
-			if(lekar.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || lekar.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok = false;
-				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
-			}
-			else if(lekar.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || lekar.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok=true;
-			}
+		if(domZdravlja.nadjiLekara(txtKorisnickoIme.getText().trim()) != null) {
+			poruka += "\n- Ovo korisnicko ime vec postoji\n";
+			ok=false;
+		}
+		if(txtLozinka.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Lozinka";
+		}
+		try{
+			Double.parseDouble(txtPlata.getText().trim());
+		}catch(NumberFormatException e){
+			ok = false;
+			poruka += "\n- Plata";
+		}
+		if(txtSpecijalizacija.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Specijalizacija";
+		}
+		if(!ok){
+			JOptionPane.showMessageDialog(null, poruka,"Validacija",JOptionPane.WARNING_MESSAGE);
+		}
+		
+		return ok;
+	}
+	private boolean validacija2(){
+		boolean ok = true;
+		String poruka = "Proverite unos u sledecim poljima: ";
+		
+		if(txtAdresa.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Adresa";
+		}
+		if(txtTelefon.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Telefon";
 		}
 		if(txtLozinka.getText().trim().equals("")){
 			ok = false;
@@ -174,11 +208,11 @@ public class LekarUpdate extends JFrame {
 		return ok;
 	}
 	private void initListeners(){
-		btnOk.addActionListener(new ActionListener() {
+		btnOk1.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(validacija()){
+				if(validacija1()){
 					String ime = txtIme.getText().trim();
 					String prezime = txtPrezime.getText().trim();
 					String jmbg = txtJmbg.getText().trim();
@@ -195,7 +229,31 @@ public class LekarUpdate extends JFrame {
 						lekar = new Lekar(ime, prezime, jmbg, adresa, telefon, korisnickoime, 
 								lozinka, pol, uloga, plata, sluzba, specijalizacija);
 						domZdravlja.dodajLekara(lekar);
-					}else{		//IZMENA
+					}
+					domZdravlja.snimiLekare();
+					LekarUpdate.this.dispose();
+					LekarUpdate.this.setVisible(false);	
+				}
+			}
+		});
+		btnOk2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(validacija2()) {
+					String ime = txtIme.getText().trim();
+					String prezime = txtPrezime.getText().trim();
+					String jmbg = txtJmbg.getText().trim();
+					String adresa = txtAdresa.getText().trim();
+					String telefon = txtTelefon.getText().trim();
+					String korisnickoime = txtKorisnickoIme.getText().trim();
+					String lozinka = txtLozinka.getText().trim();
+					Pol pol = (Pol) cbPol.getSelectedItem();
+					Uloga uloga = (Uloga) cbUloga.getSelectedItem();
+					double plata = Double.parseDouble(txtPlata.getText().trim());
+					SluzbeDomaZdravlja sluzba = (SluzbeDomaZdravlja) cbSluzba.getSelectedItem();
+					String specijalizacija = txtSpecijalizacija.getText().trim();
+					if(lekar!=null) {
 						lekar.setIme(ime);
 						lekar.setPrezime(prezime);
 						lekar.setJmbg(jmbg);

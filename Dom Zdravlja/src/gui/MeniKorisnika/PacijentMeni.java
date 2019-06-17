@@ -36,7 +36,7 @@ public class PacijentMeni extends JFrame {
 	private JLabel lblCena= new JLabel("dinara.");
 	private ArrayList<Pregledi> pregledi = new ArrayList<Pregledi>();
 	
-	public PacijentMeni(DomZdravlja domZdravlja,String korisnickoime) {
+	public PacijentMeni(DomZdravlja domZdravlja,String korisnickoime,String korisnickoime1,String korisnickoime2) {
 		this.domZdravlja = domZdravlja;
 		setTitle("Lista Pregleda:	" + domZdravlja.nadjiPacijenta(korisnickoime).getKorisnickoime());
 		setSize(1200,500);
@@ -83,7 +83,7 @@ public class PacijentMeni extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PacijentPreglediUpdate pu = new PacijentPreglediUpdate(domZdravlja, null);
+				PacijentPreglediUpdate pu = new PacijentPreglediUpdate(domZdravlja, null, korisnickoime);
 				pu.setVisible(true);
 				
 			}
@@ -99,7 +99,7 @@ public class PacijentMeni extends JFrame {
 					String ident = tabela.getValueAt(red, 0).toString();
 					Pregledi pregled = domZdravlja.nadjiPreglede(ident);
 					if(pregled != null){
-						PacijentPreglediUpdate Pupdate = new PacijentPreglediUpdate(domZdravlja, pregled);
+						PacijentPreglediUpdate Pupdate = new PacijentPreglediUpdate(domZdravlja, pregled, korisnickoime);
 						Pupdate.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Nije moguce pronaci odabrani pregled!", "Greska", JOptionPane.ERROR_MESSAGE);

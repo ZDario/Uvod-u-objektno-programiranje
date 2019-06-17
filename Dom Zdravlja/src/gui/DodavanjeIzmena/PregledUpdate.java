@@ -59,6 +59,8 @@ public class PregledUpdate extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
+		txtIdent.setEnabled(false);
+		txtIdent.setText(String.valueOf(domZdravlja.pronadjiNajveciBrojPregleda()+1));
 		initGUI();
 		if(this.pregled != null) {popuniPolja();}
 		initListeners();
@@ -87,7 +89,6 @@ public class PregledUpdate extends JFrame {
 	}
 	private void popuniPolja() {
 		txtIdent.setText(pregled.getIdent());
-		txtIdent.setEnabled(false);
 		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(this.pregled.getZatrazenDatum(),domZdravlja.getFormatTermina())));
 		txtOpis.setText(pregled.getOpis());
 		cbLekar.setSelectedItem(this.pregled.getLekar().getKorisnickoime());

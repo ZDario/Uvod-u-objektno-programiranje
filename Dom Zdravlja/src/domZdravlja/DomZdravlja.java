@@ -158,6 +158,9 @@ public class DomZdravlja {
 	}
 	
 	
+	
+	//FUNKCIJE PRONALAZENJA PREGLEDA ZA LEKARE I PACIJENTE
+	
 	public ArrayList<Pregledi> pronadjiPregledeLekar(String korisnickoime){
 		ArrayList<Pregledi> pregledLekara=new ArrayList<Pregledi>();
 		for(Pregledi pregled:pregledi){
@@ -177,6 +180,43 @@ public class DomZdravlja {
 		}
 		return pregledPacijenta;
 	}
+	
+	
+	
+	
+	//FUNKCIJE PRONALAZENJA NAJVECEG ID ZA PREGLEDE I ZDRAVSTVENE KNJIZICE
+	public int pronadjiNajveciBrojPregleda(){
+		int najveci=0;
+		for (Pregledi pregled : pregledi){
+			if(najveci<Integer.parseInt(pregled.getIdent())){
+				najveci=Integer.parseInt(pregled.getIdent());
+			}
+		}
+		return najveci;
+	}
+	
+	public int pronadjiNajveciBrojZdravstveneKnjizice(){
+		int najveci=0;
+		for (ZdravstvenaKnjizica knjizica : knjizice){
+			if(najveci<Integer.parseInt(knjizica.getIdent())){
+				najveci=Integer.parseInt(knjizica.getIdent());
+			}
+		}
+		return najveci;
+	}
+	
+	
+	
+	//FUNKCIJE PRONALAZENJA KORISNICKOG IMENA I JMBGA
+	public Lekar pronadjiKorisnickoIme(String korisnickoime) {
+		for(Lekar lekar : lekari) {
+			if(lekar.getKorisnickoime().equals(korisnickoime)){
+				return lekar;
+			}
+		}
+		return null;
+	}
+	
 	
 	
 	//FUNKCIJE ZA VREME

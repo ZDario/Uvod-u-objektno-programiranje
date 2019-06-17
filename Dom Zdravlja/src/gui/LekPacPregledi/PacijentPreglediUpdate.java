@@ -47,7 +47,7 @@ public class PacijentPreglediUpdate extends JFrame {
 	private DomZdravlja domZdravlja;
 	private Pregledi pregled;
 	
-	public PacijentPreglediUpdate(DomZdravlja domZdravlja, Pregledi pregled){
+	public PacijentPreglediUpdate(DomZdravlja domZdravlja, Pregledi pregled,String korisnickoime){
 		this.domZdravlja = domZdravlja;
 		this.pregled = pregled;
 		String ident = pregled == null ? "Dodavanje novog Pregleda" : "Izmena podataka o Pregledu" + pregled.getIdent();
@@ -56,6 +56,13 @@ public class PacijentPreglediUpdate extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		initGUI();
+		
+		txtIdent.setEnabled(false);
+		txtIdent.setText(String.valueOf(domZdravlja.pronadjiNajveciBrojPregleda()+1));
+		Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
+		cbLekar.setSelectedItem(pacijent.getIzabraniLekar().getKorisnickoime());
+		cbPacijent.setSelectedItem(pacijent.getKorisnickoime());
+		
 		if(this.pregled != null) {popuniPolja();}
 		initListeners();
 		pack();
@@ -63,14 +70,6 @@ public class PacijentPreglediUpdate extends JFrame {
 	private void initGUI() {
 		MigLayout mig = new MigLayout("wrap 2");
 		setLayout(mig);
-		
-//		for(Pregledi pregled : this.domZdravlja.getPreglede()) {
-//			cbLekar.addItem(pregled.getLekar().getKorisnickoime());
-//		}
-//		
-//		for(Pregledi pregled : this.domZdravlja.getPreglede()) {
-//			cbPacijent.addItem(pregled.getPacijent().getKorisnickoime());
-//		}
 		
 		for (Lekar lekar : this.domZdravlja.getLekare()) {
 			cbLekar.addItem(lekar.getKorisnickoime());
@@ -109,10 +108,12 @@ public class PacijentPreglediUpdate extends JFrame {
 		cbPacijent.setEnabled(false);
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
 		txtSoba.setEnabled(false);
-		cbStatusPregleda.addItem(StatusPregleda.Zakazan);
-		cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
-		cbStatusPregleda.setSelectedItem(this.pregled.getStatus());
-		cbStatusPregleda.setEnabled(false);  
+		if (pregled.getStatus()!=StatusPregleda.Zatrazen){
+			cbStatusPregleda.addItem(StatusPregleda.Zakazan);
+			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+			cbStatusPregleda.setSelectedItem(this.pregled.getStatus());
+			cbStatusPregleda.setEnabled(false);
+		}  
 		
 	}
 	private boolean validacija(){
