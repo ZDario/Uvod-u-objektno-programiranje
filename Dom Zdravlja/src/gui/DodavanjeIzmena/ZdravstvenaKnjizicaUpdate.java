@@ -68,20 +68,6 @@ public class ZdravstvenaKnjizicaUpdate extends JFrame {
 	private boolean validacija(){
 		boolean ok = true;
 		String poruka = "Proverite unos u sledecim poljima: ";
-		
-		if(txtIdent.getText().trim().equals("")){
-			ok = false;
-			poruka += "\n- Ident";
-		}
-		for(ZdravstvenaKnjizica knjizica : domZdravlja.getZdravstvenaKnjizice()) {
-			if(knjizica.getIdent().equals(txtIdent.getText().trim())) {
-				ok = false;
-				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
-			}
-			else if(knjizica.getIdent().equals(txtIdent.getText().trim())) {
-				ok=true;
-			}
-		}
 		try {
 			domZdravlja.getFormatKnjizice().parse(txtDatum.getText().trim());
 		}catch (ParseException e) {

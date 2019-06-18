@@ -12,9 +12,7 @@ import javax.swing.JTextField;
 
 import domZdravlja.DomZdravlja;
 import domZdravlja.SluzbeDomaZdravlja;
-import korisnici.Lekar;
 import korisnici.MedicinskaSestra;
-import korisnici.Pacijent;
 import korisnici.Pol;
 import korisnici.Uloga;
 import net.miginfocom.swing.MigLayout;
@@ -54,7 +52,8 @@ public class MedicinskaSestraUpdate extends JFrame{
 	private JComboBox<SluzbeDomaZdravlja> cbSluzba = new JComboBox<SluzbeDomaZdravlja>(SluzbeDomaZdravlja.values());
 	
 	
-	private JButton btnOk = new JButton("OK");
+	private JButton btnOk1 = new JButton("OK");
+	private JButton btnOk2 = new JButton("OK");
 	private JButton btnOtkazi = new JButton("Otkazi");
 	private DomZdravlja domZdravlja;
 	private MedicinskaSestra sestra;
@@ -87,13 +86,13 @@ public class MedicinskaSestraUpdate extends JFrame{
 		add(lblUloga);				add(cbUloga); 	cbUloga.setSelectedItem(Uloga.Medicinska_Sestra);	cbUloga.setEnabled(false);
 		add(lblPlata);				add(txtPlata);
 		add(lblSluzba);				add(cbSluzba,"wrap 10");
-		add(new JLabel());			add(btnOk,"split 2");		add(btnOtkazi);
+		add(new JLabel());			add(btnOk1,"split 3"); 
+		add(btnOk2);	btnOk2.setVisible(false);	btnOk2.setEnabled(false);	
+		add(btnOtkazi);
 	}
 	private void popuniPolja() {
 		txtIme.setText(sestra.getIme());
-		txtIme.setEnabled(false);
 		txtPrezime.setText(sestra.getPrezime());
-		txtPrezime.setEnabled(false);
 		txtJmbg.setText(sestra.getJmbg());
 		txtJmbg.setEnabled(false);
 		txtAdresa.setText(sestra.getAdresa());
@@ -108,8 +107,12 @@ public class MedicinskaSestraUpdate extends JFrame{
 		cbUloga.setEnabled(false);	
 		txtPlata.setText(String.valueOf(sestra.getPlata()));
 		cbSluzba.setSelectedItem(sestra.getSluzba());
+		btnOk1.setVisible(false);
+		btnOk1.setEnabled(false);
+		btnOk2.setVisible(true);
+		btnOk2.setEnabled(true);
 	}
-	private boolean validacija(){
+	private boolean validacija1(){
 		boolean ok = true;
 		String poruka = "Proverite unos u sledecim poljima: ";
 		
@@ -125,6 +128,10 @@ public class MedicinskaSestraUpdate extends JFrame{
 			ok = false;
 			poruka += "\n- JMBG";
 		}
+		if(domZdravlja.nadjiMedicinskuSestru(txtJmbg.getText().trim()) != null) {
+			poruka += "\n- Ovaj JMBG vec postoji";
+			ok=false;
+		}
 		if(txtAdresa.getText().trim().equals("")){
 			ok = false;
 			poruka += "\n- Adresa";
@@ -137,14 +144,45 @@ public class MedicinskaSestraUpdate extends JFrame{
 			ok = false;
 			poruka += "\n- Korisnicko Ime";
 		}
-		for(MedicinskaSestra sestra : domZdravlja.getMedicinskaSestre()) {
-			if(sestra.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || sestra.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok = false;
-				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
-			}
-			else if(sestra.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || sestra.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok=true;
-			}
+		if(domZdravlja.nadjiMedicinskuSestru(txtKorisnickoIme.getText().trim()) != null) {
+			poruka += "\n- Ovo korisnicko ime vec postoji";
+			ok=false;
+		}
+		if(txtLozinka.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Lozinka";
+		}
+		try{
+			Double.parseDouble(txtPlata.getText().trim());
+		}catch(NumberFormatException e){
+			ok = false;
+			poruka += "\n- Plata mora biti decimalni broj";
+		}
+		if(!ok){
+			JOptionPane.showMessageDialog(null, poruka,"Validacija",JOptionPane.WARNING_MESSAGE);
+		}
+		
+		return ok;
+	}
+	private boolean validacija2(){
+		boolean ok = true;
+		String poruka = "Proverite unos u sledecim poljima: ";
+		
+		if(txtIme.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Ime";
+		}
+		if(txtPrezime.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Prezime";
+		}
+		if(txtAdresa.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Adresa";
+		}
+		if(txtTelefon.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Telefon";
 		}
 		if(txtLozinka.getText().trim().equals("")){
 			ok = false;
@@ -163,11 +201,11 @@ public class MedicinskaSestraUpdate extends JFrame{
 		return ok;
 	}
 	private void initListeners(){
-		btnOk.addActionListener(new ActionListener() {
+		btnOk1.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(validacija()){
+				if(validacija1()){
 					String ime = txtIme.getText().trim();
 					String prezime = txtPrezime.getText().trim();
 					String jmbg = txtJmbg.getText().trim();
@@ -183,7 +221,30 @@ public class MedicinskaSestraUpdate extends JFrame{
 						sestra = new MedicinskaSestra(ime, prezime, jmbg, adresa, telefon, korisnickoime, 
 								lozinka, pol, uloga, plata, sluzba);
 						domZdravlja.dodajMedicinskaSestru(sestra);
-					}else{		//IZMENA
+					}
+					domZdravlja.snimiMedicinskeSestre();
+					MedicinskaSestraUpdate.this.dispose();
+					MedicinskaSestraUpdate.this.setVisible(false);	
+				}
+			}
+		});
+		btnOk2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(validacija2()){
+					String ime = txtIme.getText().trim();
+					String prezime = txtPrezime.getText().trim();
+					String jmbg = txtJmbg.getText().trim();
+					String adresa = txtAdresa.getText().trim();
+					String telefon = txtTelefon.getText().trim();
+					String korisnickoime = txtKorisnickoIme.getText().trim();
+					String lozinka = txtLozinka.getText().trim();
+					Pol pol = (Pol) cbPol.getSelectedItem();
+					Uloga uloga = (Uloga) cbUloga.getSelectedItem();
+					double plata = Double.parseDouble(txtPlata.getText().trim());
+					SluzbeDomaZdravlja sluzba = (SluzbeDomaZdravlja) cbSluzba.getSelectedItem();
+					if(sestra!=null) {	//IZMENA
 						sestra.setIme(ime);
 						sestra.setPrezime(prezime);
 						sestra.setJmbg(jmbg);
@@ -198,7 +259,7 @@ public class MedicinskaSestraUpdate extends JFrame{
 					}
 					domZdravlja.snimiMedicinskeSestre();
 					MedicinskaSestraUpdate.this.dispose();
-					MedicinskaSestraUpdate.this.setVisible(false);	
+					MedicinskaSestraUpdate.this.setVisible(false);
 				}
 			}
 		});

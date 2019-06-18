@@ -21,6 +21,7 @@ import domZdravlja.DomZdravlja;
 import gui.LekPacPregledi.PacijentPreglediUpdate;
 import korisnici.Pacijent;
 import pregledi.Pregledi;
+import pregledi.StatusPregleda;
 import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
 public class PacijentMeni extends JFrame {
@@ -118,7 +119,7 @@ public class PacijentMeni extends JFrame {
 				}else{
 					String korisnickoime = tabela.getValueAt(red, 4).toString();
 					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
-					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicu(pacijent.getKorisnickoime());
+					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicuZaPregled(pacijent.getKorisnickoime());
 					double racun = domZdravlja.napraviRacun(knjizica.getKategorijaosiguranja());
 					txtRacun.setText(String.valueOf(racun));
 				}

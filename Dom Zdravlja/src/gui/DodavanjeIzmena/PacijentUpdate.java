@@ -55,7 +55,8 @@ public class PacijentUpdate extends JFrame {
 	
 	
 	
-	private JButton btnOk = new JButton("OK");
+	private JButton btnOk1 = new JButton("OK");
+	private JButton btnOk2 = new JButton("OK");
 	private JButton btnOtkazi = new JButton("Otkazi");
 	private DomZdravlja domZdravlja;
 	private Pacijent pacijent;
@@ -96,13 +97,13 @@ public class PacijentUpdate extends JFrame {
 		add(lblUloga);					add(cbUloga); 		cbUloga.setSelectedItem(Uloga.Pacijent);	cbUloga.setEnabled(false);
 		add(lblZdravstvenaKnjizica);	add(cbZdravstvenaKnjizica);
 		add(lblIzabraniLekar);			add(cbIzabraniLekar,"wrap 10");
-		add(new JLabel());				add(btnOk,"split 2");		add(btnOtkazi);
+		add(new JLabel());			add(btnOk1,"split 3"); 
+		add(btnOk2);	btnOk2.setVisible(false);	btnOk2.setEnabled(false);	
+		add(btnOtkazi);
 	}
 	private void popuniPolja() {
 		txtIme.setText(pacijent.getIme());
-		txtIme.setEnabled(false);
 		txtPrezime.setText(pacijent.getPrezime());
-		txtPrezime.setEnabled(false);
 		txtJmbg.setText(pacijent.getJmbg());
 		txtJmbg.setEnabled(false);
 		txtAdresa.setText(pacijent.getAdresa());
@@ -118,8 +119,12 @@ public class PacijentUpdate extends JFrame {
 		cbZdravstvenaKnjizica.setSelectedItem(this.pacijent.getKnjizica().getIdent());
 		cbZdravstvenaKnjizica.setEnabled(false);
 		cbIzabraniLekar.setSelectedItem(this.pacijent.getIzabraniLekar().getKorisnickoime());
+		btnOk1.setVisible(false);
+		btnOk1.setEnabled(false);
+		btnOk2.setVisible(true);
+		btnOk2.setEnabled(true);
 	}
-	private boolean validacija(){
+	private boolean validacija1(){
 		boolean ok = true;
 		String poruka = "Proverite unos u sledecim poljima: ";
 		
@@ -135,6 +140,10 @@ public class PacijentUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- JMBG";
 		}
+		if(domZdravlja.nadjiPacijenta(txtJmbg.getText().trim()) != null) {
+			poruka += "\n- Ovaj JMBG vec postoji";
+			ok=false;
+		}
 		if(txtAdresa.getText().trim().equals("")){
 			ok = false;
 			poruka += "\n- Adresa";
@@ -147,14 +156,39 @@ public class PacijentUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- Korisnicko Ime";
 		}
-		for(Pacijent pacijent : domZdravlja.getPacijente()) {
-			if(pacijent.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || pacijent.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok = false;
-				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
-			}
-			else if(pacijent.getKorisnickoime().equals(txtKorisnickoIme.getText().trim()) || pacijent.getJmbg().equals(txtJmbg.getText().trim())) {
-				ok=true;
-			}
+		if(domZdravlja.nadjiPacijenta(txtKorisnickoIme.getText().trim()) != null) {
+			poruka += "\n- Ovo korisnicko ime vec postoji";
+			ok=false;
+		}
+		if(txtLozinka.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Lozinka";
+		}
+		if(!ok){
+			JOptionPane.showMessageDialog(null, poruka,"Validacija",JOptionPane.WARNING_MESSAGE);
+		}
+		
+		return ok;
+	}
+	private boolean validacija2(){
+		boolean ok = true;
+		String poruka = "Proverite unos u sledecim poljima: ";
+		
+		if(txtIme.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Ime";
+		}
+		if(txtPrezime.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Prezime";
+		}
+		if(txtAdresa.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Adresa";
+		}
+		if(txtTelefon.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Telefon";
 		}
 		if(txtLozinka.getText().trim().equals("")){
 			ok = false;
@@ -167,11 +201,11 @@ public class PacijentUpdate extends JFrame {
 		return ok;
 	}
 	private void initListeners(){
-		btnOk.addActionListener(new ActionListener() {
+		btnOk1.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(validacija()){
+				if(validacija1()){
 					String ime = txtIme.getText().trim();
 					String prezime = txtPrezime.getText().trim();
 					String jmbg = txtJmbg.getText().trim();
@@ -189,7 +223,32 @@ public class PacijentUpdate extends JFrame {
 						pacijent = new Pacijent(ime, prezime, jmbg, adresa, telefon, korisnickoime1, 
 								lozinka, pol, uloga, knjizica, izabraniLekar);
 						domZdravlja.dodajPacijenta(pacijent);
-					}else{		//IZMENA
+					}
+					domZdravlja.snimiPacijente();
+					PacijentUpdate.this.dispose();
+					PacijentUpdate.this.setVisible(false);	
+				}
+			}
+		});
+		btnOk2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(validacija2()){
+					String ime = txtIme.getText().trim();
+					String prezime = txtPrezime.getText().trim();
+					String jmbg = txtJmbg.getText().trim();
+					String adresa = txtAdresa.getText().trim();
+					String telefon = txtTelefon.getText().trim();
+					String korisnickoime1 = txtKorisnickoIme.getText().trim();
+					String lozinka = txtLozinka.getText().trim();
+					Pol pol = (Pol) cbPol.getSelectedItem();
+					Uloga uloga = (Uloga) cbUloga.getSelectedItem();
+					String ident = (String) cbZdravstvenaKnjizica.getSelectedItem();
+					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicu(ident);
+					String korisnickoime2 = (String) cbIzabraniLekar.getSelectedItem();
+					Lekar izabraniLekar = domZdravlja.nadjiLekara(korisnickoime2);
+					if(pacijent!=null) {	//IZMENI
 						pacijent.setIme(ime);
 						pacijent.setPrezime(prezime);
 						pacijent.setJmbg(jmbg);
@@ -206,6 +265,7 @@ public class PacijentUpdate extends JFrame {
 					PacijentUpdate.this.dispose();
 					PacijentUpdate.this.setVisible(false);	
 				}
+				
 			}
 		});
 		btnOtkazi.addActionListener(new ActionListener() {

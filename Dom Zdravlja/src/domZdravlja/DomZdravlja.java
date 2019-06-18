@@ -146,7 +146,16 @@ public class DomZdravlja {
 			}
 		}
 		return null;
-	}		
+	}	
+	
+	public ZdravstvenaKnjizica nadjiKnjizicuZaPregled(String korisnickoime) {
+		for (Pacijent pacijent : pacijenti) {
+			if (pacijent.getKorisnickoime().equals(korisnickoime)) {
+				return pacijent.getKnjizica();
+			}
+		}
+		return null;
+	}
 	
 	public Pregledi nadjiPreglede(String ident) {
 		for (Pregledi pregled : pregledi) {

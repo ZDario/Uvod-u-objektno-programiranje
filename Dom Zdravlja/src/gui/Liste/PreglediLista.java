@@ -148,8 +148,8 @@ public class PreglediLista extends JFrame {
 				}else{
 					String korisnickoime = tabela.getValueAt(red, 4).toString();
 					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
-					ZdravstvenaKnjizica knjizica=domZdravlja.nadjiKnjizicu(pacijent.getKorisnickoime());
-					double racun=domZdravlja.napraviRacun(knjizica.getKategorijaosiguranja());
+					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicuZaPregled(pacijent.getKorisnickoime());
+					double racun = domZdravlja.napraviRacun(knjizica.getKategorijaosiguranja());
 					txtRacun.setText(String.valueOf(racun));
 				}
 			}

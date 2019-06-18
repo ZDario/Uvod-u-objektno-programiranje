@@ -100,9 +100,7 @@ public class LekarUpdate extends JFrame {
 	}
 	private void popuniPolja() {
 		txtIme.setText(lekar.getIme());
-		txtIme.setEnabled(false);
 		txtPrezime.setText(lekar.getPrezime());
-		txtPrezime.setEnabled(false);
 		txtJmbg.setText(lekar.getJmbg());
 		txtJmbg.setEnabled(false);
 		txtAdresa.setText(lekar.getAdresa());
@@ -139,6 +137,10 @@ public class LekarUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- JMBG";
 		}
+		if(domZdravlja.nadjiLekara(txtJmbg.getText().trim()) != null) {
+			poruka += "\n- Ovaj JMBG vec postoji";
+			ok=false;
+		}
 		if(txtAdresa.getText().trim().equals("")){
 			ok = false;
 			poruka += "\n- Adresa";
@@ -152,7 +154,7 @@ public class LekarUpdate extends JFrame {
 			poruka += "\n- Korisnicko Ime";
 		}
 		if(domZdravlja.nadjiLekara(txtKorisnickoIme.getText().trim()) != null) {
-			poruka += "\n- Ovo korisnicko ime vec postoji\n";
+			poruka += "\n- Ovo korisnicko ime vec postoji";
 			ok=false;
 		}
 		if(txtLozinka.getText().trim().equals("")){
@@ -163,7 +165,7 @@ public class LekarUpdate extends JFrame {
 			Double.parseDouble(txtPlata.getText().trim());
 		}catch(NumberFormatException e){
 			ok = false;
-			poruka += "\n- Plata";
+			poruka += "\n- Plata mora biti decimalni broj";
 		}
 		if(txtSpecijalizacija.getText().trim().equals("")){
 			ok = false;
@@ -253,7 +255,7 @@ public class LekarUpdate extends JFrame {
 					double plata = Double.parseDouble(txtPlata.getText().trim());
 					SluzbeDomaZdravlja sluzba = (SluzbeDomaZdravlja) cbSluzba.getSelectedItem();
 					String specijalizacija = txtSpecijalizacija.getText().trim();
-					if(lekar!=null) {
+					if(lekar!=null) {	//IZMENA
 						lekar.setIme(ime);
 						lekar.setPrezime(prezime);
 						lekar.setJmbg(jmbg);

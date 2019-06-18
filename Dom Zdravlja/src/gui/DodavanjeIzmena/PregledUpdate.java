@@ -45,7 +45,6 @@ public class PregledUpdate extends JFrame {
 	private JLabel lblStatusPregleda = new JLabel("Status Pregleda: ");
 	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>(StatusPregleda.values());
 	
-
 	private JButton btnOk = new JButton("OK");
 	private JButton btnOtkazi = new JButton("Otkazi");
 	private DomZdravlja domZdravlja;
@@ -85,10 +84,12 @@ public class PregledUpdate extends JFrame {
 		add(lblPacijent);				add(cbPacijent);
 		add(lblSoba);					add(txtSoba);
 		add(lblStatusPregleda);			add(cbStatusPregleda,"wrap 10");
-		add(new JLabel());				add(btnOk,"split 2");		add(btnOtkazi);
+		add(new JLabel());			add(btnOk,"split 2"); 
+		add(btnOtkazi);
 	}
 	private void popuniPolja() {
 		txtIdent.setText(pregled.getIdent());
+		txtIdent.setEnabled(false);
 		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(this.pregled.getZatrazenDatum(),domZdravlja.getFormatTermina())));
 		txtOpis.setText(pregled.getOpis());
 		cbLekar.setSelectedItem(this.pregled.getLekar().getKorisnickoime());
@@ -100,19 +101,6 @@ public class PregledUpdate extends JFrame {
 		boolean ok = true;
 		String poruka = "Proverite unos u sledecim poljima: ";
 		
-		if(txtIdent.getText().trim().equals("")){
-			ok = false;
-			poruka += "\n- Ident";
-		}
-		for(Pregledi pregled : domZdravlja.getPreglede()) {
-			if(pregled.getIdent().equals(txtIdent.getText().trim())) {
-				ok = false;
-				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
-			}
-			else if(pregled.getIdent().equals(txtIdent.getText().trim())) {
-				ok=true;
-			}
-		}
 		try {
 			domZdravlja.getFormatTermina().parse(txtZatrazenDatum.getText().trim());
 		}catch (ParseException e) {

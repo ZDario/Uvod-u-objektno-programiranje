@@ -37,7 +37,7 @@ public class LekarPreglediUpdate extends JFrame {
 	private JTextField txtSoba = new JTextField(20);
 	
 	private JLabel lblStatusPregleda = new JLabel("Status Pregleda: ");
-	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>(StatusPregleda.values());
+	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>();
 	
 	private JButton btnOtkazi = new JButton("Zatvori");
 	private DomZdravlja domZdravlja;
@@ -91,8 +91,16 @@ public class LekarPreglediUpdate extends JFrame {
 		cbPacijent.setEnabled(false);
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
 		txtSoba.setEnabled(false);
-		cbStatusPregleda.setSelectedItem(pregled.getStatus());
-		cbStatusPregleda.setEnabled(false);
+		if (pregled.getStatus()!=StatusPregleda.Zakazan){
+			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+			cbStatusPregleda.setSelectedItem(this.pregled.getStatus());
+			cbStatusPregleda.setEnabled(false);
+		}  
+		else {
+			cbStatusPregleda.setSelectedItem(pregled.getStatus());
+			cbStatusPregleda.setEnabled(false);
+		}
 	}
 	private void initListeners(){
 		btnOtkazi.addActionListener(new ActionListener() {
