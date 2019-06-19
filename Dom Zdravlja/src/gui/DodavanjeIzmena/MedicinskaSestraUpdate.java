@@ -128,7 +128,7 @@ public class MedicinskaSestraUpdate extends JFrame{
 			ok = false;
 			poruka += "\n- JMBG";
 		}
-		if(domZdravlja.nadjiMedicinskuSestru(txtJmbg.getText().trim()) != null) {
+		if(domZdravlja.nadjiMedicinskuSestru2(txtJmbg.getText().trim()) != null) {
 			poruka += "\n- Ovaj JMBG vec postoji";
 			ok=false;
 		}

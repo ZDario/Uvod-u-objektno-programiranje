@@ -137,7 +137,7 @@ public class LekarUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- JMBG";
 		}
-		if(domZdravlja.nadjiLekara(txtJmbg.getText().trim()) != null) {
+		if(domZdravlja.nadjiLekara2(txtJmbg.getText().trim()) != null) {
 			poruka += "\n- Ovaj JMBG vec postoji";
 			ok=false;
 		}

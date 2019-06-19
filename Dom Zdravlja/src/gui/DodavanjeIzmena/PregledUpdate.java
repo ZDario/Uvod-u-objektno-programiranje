@@ -2,11 +2,7 @@ package gui.DodavanjeIzmena;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
@@ -43,7 +39,7 @@ public class PregledUpdate extends JFrame {
 	private JTextField txtSoba = new JTextField(20);
 	
 	private JLabel lblStatusPregleda = new JLabel("Status Pregleda: ");
-	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>(StatusPregleda.values());
+	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>();
 	
 	private JButton btnOk = new JButton("OK");
 	private JButton btnOtkazi = new JButton("Otkazi");
@@ -84,6 +80,7 @@ public class PregledUpdate extends JFrame {
 		add(lblPacijent);				add(cbPacijent);
 		add(lblSoba);					add(txtSoba);
 		add(lblStatusPregleda);			add(cbStatusPregleda,"wrap 10");
+		cbStatusPregleda.setSelectedItem(StatusPregleda.Zakazan);
 		add(new JLabel());			add(btnOk,"split 2"); 
 		add(btnOtkazi);
 	}
@@ -96,6 +93,26 @@ public class PregledUpdate extends JFrame {
 		cbPacijent.setSelectedItem(this.pregled.getPacijent().getKorisnickoime());
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
 		cbStatusPregleda.setSelectedItem(pregled.getStatus());
+		if(pregled.getStatus()==StatusPregleda.Zatrazen){
+			cbStatusPregleda.addItem(StatusPregleda.Zatrazen);
+			cbStatusPregleda.addItem(StatusPregleda.Zakazan);
+			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+		}
+		if(pregled.getStatus()==StatusPregleda.Zakazan) {
+			cbStatusPregleda.removeItem(StatusPregleda.Zatrazen);
+			cbStatusPregleda.addItem(StatusPregleda.Zakazan);
+			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+		}
+		if(pregled.getStatus()==StatusPregleda.Zavrsen){
+			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+			cbStatusPregleda.setEnabled(false);
+		}
+		if(pregled.getStatus()==StatusPregleda.Otkazan){
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+			cbStatusPregleda.setEnabled(false);
+		}
 	}
 	private boolean validacija(){
 		boolean ok = true;

@@ -110,7 +110,7 @@ public class MedicinskaSestraMeni extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PreglediLista pregledLista = new PreglediLista(domZdravlja);
+				PreglediLista pregledLista = new PreglediLista(domZdravlja, null);
 				pregledLista.setVisible(true);
 			}
 		});

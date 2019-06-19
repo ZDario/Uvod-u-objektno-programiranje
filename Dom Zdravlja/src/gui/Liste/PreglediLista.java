@@ -21,6 +21,7 @@ import domZdravlja.DomZdravlja;
 import gui.DodavanjeIzmena.PregledUpdate;
 import korisnici.Pacijent;
 import pregledi.Pregledi;
+import pregledi.StatusPregleda;
 import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
 public class PreglediLista extends JFrame {
@@ -36,9 +37,9 @@ public class PreglediLista extends JFrame {
 	private JToolBar toolbar = new JToolBar();
 	private JTable tabela;
 	private DomZdravlja domZdravlja;
-	private ArrayList<Pregledi> pregledi= new ArrayList<Pregledi>();
+	private Pregledi pregled;
 	
-	public PreglediLista(DomZdravlja domZdravlja) {
+	public PreglediLista(DomZdravlja domZdravlja,Pregledi pregled) {
 		this.domZdravlja = domZdravlja;
 		setTitle("Pregledi");
 		setSize(1200,500);
@@ -142,17 +143,25 @@ public class PreglediLista extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int red = tabela.getSelectedRow();
-				if (red == -1) {
-					JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska",
-							JOptionPane.WARNING_MESSAGE);
-				}else{
-					String korisnickoime = tabela.getValueAt(red, 4).toString();
-					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
-					ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicuZaPregled(pacijent.getKorisnickoime());
-					double racun = domZdravlja.napraviRacun(knjizica.getKategorijaosiguranja());
-					txtRacun.setText(String.valueOf(racun));
+//				String statusp = tabela.getValueAt(red, 6).toString();
+//				Pregledi status = domZdravlja.nadjiPreglede(statusp);
+//				StatusPregleda st = domZdravlja.nadjiStatusPregleda(status.getStatus());
+//				if(st==StatusPregleda.Zavrsen) {
+					if (red == -1) {
+						JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska",
+								JOptionPane.WARNING_MESSAGE);
+					}else{
+						String korisnickoime = tabela.getValueAt(red, 4).toString();
+						Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
+						ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicuZaPregled(pacijent.getKorisnickoime());
+						double racun = domZdravlja.napraviRacun(knjizica.getKategorijaosiguranja());
+						txtRacun.setText(String.valueOf(racun));
+					}
 				}
-			}
+//				else {
+//					txtRacun.setText("Pregled mora biti zavrsen da bi ste dobili racun!");
+//				}
+//			}
 		});
 	}
 }

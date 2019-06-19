@@ -42,7 +42,8 @@ public class PacijentPreglediUpdate extends JFrame {
 	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>();
 	
 
-	private JButton btnOk = new JButton("OK");
+	private JButton btnOk1 = new JButton("OK");
+	private JButton btnOk2 = new JButton("OK");
 	private JButton btnOtkazi = new JButton("Otkazi");
 	private DomZdravlja domZdravlja;
 	private Pregledi pregled;
@@ -92,9 +93,10 @@ public class PacijentPreglediUpdate extends JFrame {
 		add(lblSoba);					add(txtSoba);
 		add(lblStatusPregleda);			add(cbStatusPregleda,"wrap 10");
 		cbStatusPregleda.addItem(StatusPregleda.Zatrazen);
-		cbStatusPregleda.addItem(StatusPregleda.Otkazan);
 		
-		add(new JLabel());				add(btnOk,"split 2");		add(btnOtkazi);
+		add(new JLabel());			add(btnOk1,"split 3"); 
+		add(btnOk2);	btnOk2.setVisible(false);	btnOk2.setEnabled(false);	
+		add(btnOtkazi);
 	}
 	private void popuniPolja() {
 		txtIdent.setText(pregled.getIdent());
@@ -108,30 +110,38 @@ public class PacijentPreglediUpdate extends JFrame {
 		cbPacijent.setEnabled(false);
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
 		txtSoba.setEnabled(false);
-		if (pregled.getStatus()!=StatusPregleda.Zatrazen){
+		if (pregled.getStatus()==StatusPregleda.Zatrazen){
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+		}
+		if(pregled.getStatus()==StatusPregleda.Zakazan) {
+			cbStatusPregleda.removeItem(StatusPregleda.Zatrazen);
 			cbStatusPregleda.addItem(StatusPregleda.Zakazan);
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+		}
+		if(pregled.getStatus()==StatusPregleda.Zavrsen){
+			cbStatusPregleda.removeItem(StatusPregleda.Zatrazen);
 			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
-			cbStatusPregleda.setSelectedItem(this.pregled.getStatus());
 			cbStatusPregleda.setEnabled(false);
-		}  
-		
+			txtOpis.setEnabled(false);
+		}
+		if(pregled.getStatus()==StatusPregleda.Otkazan){
+			cbStatusPregleda.removeItem(StatusPregleda.Zatrazen);
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+			cbStatusPregleda.setEnabled(false);
+			txtOpis.setEnabled(false);
+		}
+		btnOk1.setVisible(false);
+		btnOk1.setEnabled(false);
+		btnOk2.setVisible(true);
+		btnOk2.setEnabled(true);
 	}
-	private boolean validacija(){
+	private boolean validacija1(){
 		boolean ok = true;
 		String poruka = "Proverite unos u sledecim poljima: ";
 		
 		if(txtIdent.getText().trim().equals("")){
 			ok = false;
 			poruka += "\n- Ident";
-		}
-		for(Pregledi pregled : domZdravlja.getPreglede()) {
-			if(pregled.getIdent().equals(txtIdent.getText().trim())) {
-				ok = false;
-				poruka += "\n - Korisnicko ime ili jmbg vec postoji";
-			}
-			else if(pregled.getIdent().equals(txtIdent.getText().trim())) {
-				ok=true;
-			}
 		}
 		try {
 			domZdravlja.getFormatTermina().parse(txtZatrazenDatum.getText().trim());
@@ -155,12 +165,26 @@ public class PacijentPreglediUpdate extends JFrame {
 		
 		return ok;
 	}
+	private boolean validacija2(){
+		boolean ok = true;
+		String poruka = "Proverite unos u sledecim poljima: ";
+		
+		if(txtOpis.getText().trim().equals("")){
+			ok = false;
+			poruka += "\n- Opis";
+		}
+
+		if(!ok){
+			JOptionPane.showMessageDialog(null, poruka,"Validacija",JOptionPane.WARNING_MESSAGE);
+		}
+		return ok;
+	}
 	private void initListeners(){
-		btnOk.addActionListener(new ActionListener() {
+		btnOk1.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(validacija()){
+				if(validacija1()){
 					String ident = txtIdent.getText().trim();
 					
 					GregorianCalendar termin = domZdravlja.napraviDatumIVreme(txtZatrazenDatum.getText().trim());
@@ -180,7 +204,34 @@ public class PacijentPreglediUpdate extends JFrame {
 					if(pregled == null){ 	//DODAVANJE:
 						pregled = new Pregledi(ident, termin, opis, lekar, pacijent, soba, status);
 						domZdravlja.dodajPreglede(pregled);
-					}else{		//IZMENA
+					}
+					domZdravlja.snimiPreglede();
+					PacijentPreglediUpdate.this.dispose();
+					PacijentPreglediUpdate.this.setVisible(false);	
+				}
+			}
+		});
+		btnOk2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(validacija2()){
+					String ident = txtIdent.getText().trim();
+					
+					GregorianCalendar termin = domZdravlja.napraviDatumIVreme(txtZatrazenDatum.getText().trim());
+					
+					String opis = txtOpis.getText().trim();
+					
+					String korisnickoime = (String) cbLekar.getSelectedItem();
+					Lekar lekar = domZdravlja.nadjiLekara(korisnickoime);
+					
+					String korisnickoime1 = (String) cbPacijent.getSelectedItem();
+					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime1);
+					
+					int soba = Integer.parseInt(txtSoba.getText().trim());
+					
+					StatusPregleda status = (StatusPregleda) cbStatusPregleda.getSelectedItem();
+					if(pregled!=null) {
 						pregled.setIdent(ident);
 						pregled.setZatrazenDatum(termin);
 						pregled.setOpis(opis);

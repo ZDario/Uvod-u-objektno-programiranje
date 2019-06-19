@@ -39,6 +39,7 @@ public class LekarPreglediUpdate extends JFrame {
 	private JLabel lblStatusPregleda = new JLabel("Status Pregleda: ");
 	private JComboBox<StatusPregleda> cbStatusPregleda = new JComboBox<StatusPregleda>();
 	
+	private JButton btnOk = new JButton("Izmeni");
 	private JButton btnOtkazi = new JButton("Zatvori");
 	private DomZdravlja domZdravlja;
 	private Pregledi pregled;
@@ -75,7 +76,7 @@ public class LekarPreglediUpdate extends JFrame {
 		add(lblSoba);					add(txtSoba);
 		add(lblStatusPregleda);			add(cbStatusPregleda,"wrap 10"); 
 		
-		add(new JLabel());	add(btnOtkazi);
+		add(new JLabel());	add(btnOk,"split 2");	add(btnOtkazi);
 	}
 	private void popuniPolja() {
 		txtIdent.setText(pregled.getIdent());
@@ -91,18 +92,52 @@ public class LekarPreglediUpdate extends JFrame {
 		cbPacijent.setEnabled(false);
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
 		txtSoba.setEnabled(false);
-		if (pregled.getStatus()!=StatusPregleda.Zakazan){
+		if (pregled.getStatus()==StatusPregleda.Zakazan){
 			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
 			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
-			cbStatusPregleda.setSelectedItem(this.pregled.getStatus());
-			cbStatusPregleda.setEnabled(false);
 		}  
 		else {
-			cbStatusPregleda.setSelectedItem(pregled.getStatus());
+			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+			cbStatusPregleda.addItem(StatusPregleda.Zatrazen);
 			cbStatusPregleda.setEnabled(false);
 		}
 	}
 	private void initListeners(){
+		btnOk.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+					String ident = txtIdent.getText().trim();
+					
+					GregorianCalendar termin = domZdravlja.napraviDatumIVreme(txtZatrazenDatum.getText().trim());
+					
+					String opis = txtOpis.getText().trim();
+					
+					String korisnickoime = (String) cbLekar.getSelectedItem();
+					Lekar lekar = domZdravlja.nadjiLekara(korisnickoime);
+					
+					String korisnickoime1 = (String) cbPacijent.getSelectedItem();
+					Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime1);
+					
+					int soba = Integer.parseInt(txtSoba.getText().trim());
+					
+					StatusPregleda status = (StatusPregleda) cbStatusPregleda.getSelectedItem();
+					
+					if(pregled != null){ 
+						pregled.setIdent(ident);
+						pregled.setZatrazenDatum(termin);
+						pregled.setOpis(opis);
+						pregled.setLekar(lekar);
+						pregled.setPacijent(pacijent);
+						pregled.setSoba(soba);
+						pregled.setStatus(status);
+					}
+					domZdravlja.snimiPreglede();
+					LekarPreglediUpdate.this.dispose();
+					LekarPreglediUpdate.this.setVisible(false);	
+			}
+		});
 		btnOtkazi.addActionListener(new ActionListener() {
 			
 			@Override

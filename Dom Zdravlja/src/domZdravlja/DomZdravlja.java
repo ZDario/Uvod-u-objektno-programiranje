@@ -110,11 +110,25 @@ public class DomZdravlja {
 	}
 	
 	
+	
+	//
 	//FUNKCIJE PRONALAZENJA
+	//
+	
+	
+	//FUNKCIJE PRONALAZENJA PREMA KORISNICKOM IMENU, JMBG-U I ID-U
 	
 	public Lekar nadjiLekara(String korisnickoime) {
 		for (Lekar lekar : lekari) {
 			if (lekar.getKorisnickoime().equals(korisnickoime)) {
+				return lekar;
+			}
+		}
+		return null;
+	}
+	public Lekar nadjiLekara2(String jmbg) {
+		for (Lekar lekar : lekari) {
+			if (lekar.getJmbg().equals(jmbg)) {
 				return lekar;
 			}
 		}
@@ -129,10 +143,27 @@ public class DomZdravlja {
 		}
 		return null;
 	}
+	public MedicinskaSestra nadjiMedicinskuSestru2(String jmbg) {
+		for (MedicinskaSestra sestra : sestre) {
+			if (sestra.getJmbg().equals(jmbg)) {
+				return sestra;
+			}
+		}
+		return null;
+	}
+	
 	
 	public Pacijent nadjiPacijenta(String korisnickoime) {
 		for (Pacijent pacijent : pacijenti) {
 			if (pacijent.getKorisnickoime().equals(korisnickoime)) {
+				return pacijent;
+			}
+		}
+		return null;
+	}
+	public Pacijent nadjiPacijenta2(String jmbg) {
+		for (Pacijent pacijent : pacijenti) {
+			if (pacijent.getJmbg().equals(jmbg)) {
 				return pacijent;
 			}
 		}
@@ -165,6 +196,14 @@ public class DomZdravlja {
 		}
 		return null;
 	}
+//	public StatusPregleda nadjiStatusPregleda(StatusPregleda status) {
+//		for (Pregledi pregled : pregledi) {
+//			if (pregled.getStatus().equals(status)) {
+//				return pregled.getStatus();
+//			}
+//		}
+//		return null;
+//	}
 	
 	
 	
@@ -213,20 +252,6 @@ public class DomZdravlja {
 		}
 		return najveci;
 	}
-	
-	
-	
-	//FUNKCIJE PRONALAZENJA KORISNICKOG IMENA I JMBGA
-	public Lekar pronadjiKorisnickoIme(String korisnickoime) {
-		for(Lekar lekar : lekari) {
-			if(lekar.getKorisnickoime().equals(korisnickoime)){
-				return lekar;
-			}
-		}
-		return null;
-	}
-	
-	
 	
 	//FUNKCIJE ZA VREME
 	

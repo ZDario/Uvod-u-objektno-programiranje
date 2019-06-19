@@ -140,7 +140,7 @@ public class PacijentUpdate extends JFrame {
 			ok = false;
 			poruka += "\n- JMBG";
 		}
-		if(domZdravlja.nadjiPacijenta(txtJmbg.getText().trim()) != null) {
+		if(domZdravlja.nadjiPacijenta2(txtJmbg.getText().trim()) != null) {
 			poruka += "\n- Ovaj JMBG vec postoji";
 			ok=false;
 		}
