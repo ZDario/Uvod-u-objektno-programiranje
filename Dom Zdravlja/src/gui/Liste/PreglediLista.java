@@ -3,7 +3,6 @@ package gui.Liste;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,9 +36,8 @@ public class PreglediLista extends JFrame {
 	private JToolBar toolbar = new JToolBar();
 	private JTable tabela;
 	private DomZdravlja domZdravlja;
-	private Pregledi pregled;
 	
-	public PreglediLista(DomZdravlja domZdravlja,Pregledi pregled) {
+	public PreglediLista(DomZdravlja domZdravlja) {
 		this.domZdravlja = domZdravlja;
 		setTitle("Pregledi");
 		setSize(1200,500);
@@ -143,25 +141,24 @@ public class PreglediLista extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int red = tabela.getSelectedRow();
-//				String statusp = tabela.getValueAt(red, 6).toString();
-//				Pregledi status = domZdravlja.nadjiPreglede(statusp);
-//				StatusPregleda st = domZdravlja.nadjiStatusPregleda(status.getStatus());
-//				if(st==StatusPregleda.Zavrsen) {
 					if (red == -1) {
 						JOptionPane.showMessageDialog(null, "Morate odabrati red u tabeli.", "Greska",
 								JOptionPane.WARNING_MESSAGE);
 					}else{
-						String korisnickoime = tabela.getValueAt(red, 4).toString();
-						Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
-						ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicuZaPregled(pacijent.getKorisnickoime());
-						double racun = domZdravlja.napraviRacun(knjizica.getKategorijaosiguranja());
-						txtRacun.setText(String.valueOf(racun));
+						String ident = (String) tabela.getValueAt(red, 0);
+						Pregledi izabraniPregled = domZdravlja.nadjiPreglede(ident);
+						
+						if (izabraniPregled.getStatus() == StatusPregleda.Zavrsen) {
+							String korisnickoime = tabela.getValueAt(red, 4).toString();
+							Pacijent pacijent = domZdravlja.nadjiPacijenta(korisnickoime);
+							ZdravstvenaKnjizica knjizica = domZdravlja.nadjiKnjizicuZaPregled(pacijent.getKorisnickoime());
+							double racun = domZdravlja.napraviRacun(knjizica.getKategorijaosiguranja());
+							txtRacun.setText(String.valueOf(racun));
+						} else {
+							txtRacun.setText("Pregled mora biti zavrsen da bi ste dobili racun!");
+						}
 					}
 				}
-//				else {
-//					txtRacun.setText("Pregled mora biti zavrsen da bi ste dobili racun!");
-//				}
-//			}
 		});
 	}
 }

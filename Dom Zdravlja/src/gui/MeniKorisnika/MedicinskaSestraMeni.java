@@ -15,7 +15,6 @@ import gui.Liste.MedicinskeSestreLista;
 import gui.Liste.PacijentiLista;
 import gui.Liste.PreglediLista;
 import gui.Liste.ZdravstveneKnjiziceLista;
-import korisnici.MedicinskaSestra;
 import net.miginfocom.swing.MigLayout;
 
 public class MedicinskaSestraMeni extends JFrame {
@@ -36,12 +35,10 @@ public class MedicinskaSestraMeni extends JFrame {
 	private JLabel lbl6 = new JLabel("");
 	
 	private DomZdravlja domZdravlja;
-	private MedicinskaSestra SestraLoginProzor;
 	
-	public MedicinskaSestraMeni(DomZdravlja domZdravlja,MedicinskaSestra SestraLoginProzor) {
+	public MedicinskaSestraMeni(DomZdravlja domZdravlja) {
 		this.domZdravlja = domZdravlja;
-		this.SestraLoginProzor = SestraLoginProzor;
-		setTitle("Meni Medicinske Sestre: " + SestraLoginProzor.getKorisnickoime());
+		setTitle("Meni Medicinske Sestre");
 		setSize(420, 380);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -110,7 +107,7 @@ public class MedicinskaSestraMeni extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PreglediLista pregledLista = new PreglediLista(domZdravlja, null);
+				PreglediLista pregledLista = new PreglediLista(domZdravlja);
 				pregledLista.setVisible(true);
 			}
 		});

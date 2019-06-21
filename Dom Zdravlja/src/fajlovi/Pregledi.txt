@@ -1,6 +1,7 @@
+92137|03.05.2019. 12:10|Upaljeno grlo|M.Mihajlovic|M.Milovanovic|2|Zavrsen
 92138|13.04.2019. 18:20|Groznica|I.Ivanovic|S.Saric|4|Zavrsen
 92139|25.06.2019. 19:30|Pregled zuba|M.Mihajlovic|M.Milovanovic|3|Zakazan
 92140|23.07.2019. 20:40|Prehlada - Pregled|I.Ivanovic|S.Saric|1|Otkazan
 92141|13.03.2020. 13:45|Bol u stomaku|I.Ivanovic|S.Saric|1|Zatrazen
 92142|28.09.2019. 15:20|Pregled opekotina|M.Mihajlovic|M.Milovanovic|2|Zatrazen
-92143|16.01.2020. 15:55|Glavobolja|I.Ivanovic|S.Saric|3|Zakazan
+92143|16.10.2019. 15:55|Glavobolja|I.Ivanovic|S.Saric|3|Zakazan

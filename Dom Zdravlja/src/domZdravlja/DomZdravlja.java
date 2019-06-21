@@ -196,14 +196,6 @@ public class DomZdravlja {
 		}
 		return null;
 	}
-//	public StatusPregleda nadjiStatusPregleda(StatusPregleda status) {
-//		for (Pregledi pregled : pregledi) {
-//			if (pregled.getStatus().equals(status)) {
-//				return pregled.getStatus();
-//			}
-//		}
-//		return null;
-//	}
 	
 	
 	
@@ -212,7 +204,7 @@ public class DomZdravlja {
 	public ArrayList<Pregledi> pronadjiPregledeLekar(String korisnickoime){
 		ArrayList<Pregledi> pregledLekara=new ArrayList<Pregledi>();
 		for(Pregledi pregled:pregledi){
-			if((pregled.getLekar().getKorisnickoime().equals(korisnickoime)) && ((pregled.getStatus()==StatusPregleda.Zakazan) || (pregled.getStatus()==StatusPregleda.Otkazan) || (pregled.getStatus()==StatusPregleda.Zavrsen))){
+			if((pregled.getLekar().getKorisnickoime().equals(korisnickoime))){
 				pregledLekara.add(pregled);
 			}
 		}

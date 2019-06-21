@@ -21,7 +21,6 @@ import domZdravlja.DomZdravlja;
 import gui.LekPacPregledi.PacijentPreglediUpdate;
 import korisnici.Pacijent;
 import pregledi.Pregledi;
-import pregledi.StatusPregleda;
 import zdravstvenaKnjizica.ZdravstvenaKnjizica;
 
 public class PacijentMeni extends JFrame {
@@ -37,7 +36,7 @@ public class PacijentMeni extends JFrame {
 	private JLabel lblCena= new JLabel("dinara.");
 	private ArrayList<Pregledi> pregledi = new ArrayList<Pregledi>();
 	
-	public PacijentMeni(DomZdravlja domZdravlja,String korisnickoime,String korisnickoime1,String korisnickoime2) {
+	public PacijentMeni(DomZdravlja domZdravlja,String korisnickoime) {
 		this.domZdravlja = domZdravlja;
 		setTitle("Lista Pregleda:	" + domZdravlja.nadjiPacijenta(korisnickoime).getKorisnickoime());
 		setSize(1200,500);

@@ -109,7 +109,6 @@ public class PacijentPreglediUpdate extends JFrame {
 		cbPacijent.setSelectedItem(this.pregled.getPacijent().getKorisnickoime());
 		cbPacijent.setEnabled(false);
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
-		txtSoba.setEnabled(false);
 		if (pregled.getStatus()==StatusPregleda.Zatrazen){
 			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
 		}
@@ -149,6 +148,8 @@ public class PacijentPreglediUpdate extends JFrame {
 			poruka += "\n- Datum mora biti formata dd.MM.yyyy. HH:mm";
 			ok = false;
 		}
+	
+		
 		if(txtOpis.getText().trim().equals("")){
 			ok = false;
 			poruka += "\n- Opis";

@@ -93,13 +93,20 @@ public class LekarPreglediUpdate extends JFrame {
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
 		txtSoba.setEnabled(false);
 		if (pregled.getStatus()==StatusPregleda.Zakazan){
+			cbStatusPregleda.addItem(StatusPregleda.Zakazan);
 			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
 			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
 		}  
-		else {
-			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
-			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+		if (pregled.getStatus()==StatusPregleda.Zatrazen){
 			cbStatusPregleda.addItem(StatusPregleda.Zatrazen);
+			cbStatusPregleda.setEnabled(false);
+		}
+		if (pregled.getStatus()==StatusPregleda.Zavrsen){
+			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+			cbStatusPregleda.setEnabled(false);
+		}
+		if (pregled.getStatus()==StatusPregleda.Otkazan){
+			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
 			cbStatusPregleda.setEnabled(false);
 		}
 	}

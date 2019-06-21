@@ -68,7 +68,7 @@ public class MedicinskaSestraLoginProzor extends JFrame {
 					if(sestra !=null) {
 						MedicinskaSestraLoginProzor.this.setVisible(false);
 						MedicinskaSestraLoginProzor.this.dispose();
-						MedicinskaSestraMeni sestraMeni = new MedicinskaSestraMeni(domZdravlja, sestra);
+						MedicinskaSestraMeni sestraMeni = new MedicinskaSestraMeni(domZdravlja);
 						sestraMeni.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Pogrešni login podaci!");

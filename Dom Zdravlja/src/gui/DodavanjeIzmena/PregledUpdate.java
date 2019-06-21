@@ -3,6 +3,7 @@ package gui.DodavanjeIzmena;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
@@ -15,11 +16,16 @@ import javax.swing.JTextField;
 import domZdravlja.DomZdravlja;
 import korisnici.Lekar;
 import korisnici.Pacijent;
-import net.miginfocom.swing.MigLayout;
 import pregledi.Pregledi;
 import pregledi.StatusPregleda;
+import net.miginfocom.swing.MigLayout;
+
 
 public class PregledUpdate extends JFrame {
+	
+	public static final int EXAM_DISTANCE = 15;
+	public static final int CONVERSION_FACTOR_MINUTES = (60 * 1000);
+	
 	private JLabel lblIdent = new JLabel("Ident: ");
 	private JTextField txtIdent = new JTextField(20);
 	
@@ -80,7 +86,7 @@ public class PregledUpdate extends JFrame {
 		add(lblPacijent);				add(cbPacijent);
 		add(lblSoba);					add(txtSoba);
 		add(lblStatusPregleda);			add(cbStatusPregleda,"wrap 10");
-		cbStatusPregleda.setSelectedItem(StatusPregleda.Zakazan);
+		cbStatusPregleda.addItem(StatusPregleda.Zakazan);
 		add(new JLabel());			add(btnOk,"split 2"); 
 		add(btnOtkazi);
 	}
@@ -95,22 +101,32 @@ public class PregledUpdate extends JFrame {
 		cbStatusPregleda.setSelectedItem(pregled.getStatus());
 		if(pregled.getStatus()==StatusPregleda.Zatrazen){
 			cbStatusPregleda.addItem(StatusPregleda.Zatrazen);
-			cbStatusPregleda.addItem(StatusPregleda.Zakazan);
 			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
 			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
 		}
 		if(pregled.getStatus()==StatusPregleda.Zakazan) {
 			cbStatusPregleda.removeItem(StatusPregleda.Zatrazen);
-			cbStatusPregleda.addItem(StatusPregleda.Zakazan);
 			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
 			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
 		}
 		if(pregled.getStatus()==StatusPregleda.Zavrsen){
+			cbStatusPregleda.removeItem(StatusPregleda.Zakazan);
 			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
+			txtZatrazenDatum.setEnabled(false);
+			txtOpis.setEnabled(false);
+			cbLekar.setEnabled(false);
+			cbPacijent.setEnabled(false);
+			txtSoba.setEnabled(false);
 			cbStatusPregleda.setEnabled(false);
 		}
 		if(pregled.getStatus()==StatusPregleda.Otkazan){
+			cbStatusPregleda.removeItem(StatusPregleda.Zakazan);
 			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+			txtZatrazenDatum.setEnabled(false);
+			txtOpis.setEnabled(false);
+			cbLekar.setEnabled(false);
+			cbPacijent.setEnabled(false);
+			txtSoba.setEnabled(false);
 			cbStatusPregleda.setEnabled(false);
 		}
 	}
@@ -124,6 +140,7 @@ public class PregledUpdate extends JFrame {
 			poruka += "\n- Datum mora biti formata dd.MM.yyyy. HH:mm";
 			ok = false;
 		}
+		
 		if(txtOpis.getText().trim().equals("")){
 			ok = false;
 			poruka += "\n- Opis";
@@ -132,7 +149,7 @@ public class PregledUpdate extends JFrame {
 			Integer.parseInt(txtSoba.getText().trim());
 		}catch(NumberFormatException e){
 			ok = false;
-			poruka += "\n- Soba";
+			poruka += "\n- Soba mora biti jednocifren broj";
 		}
 		if(!ok){
 			JOptionPane.showMessageDialog(null, poruka,"Validacija",JOptionPane.WARNING_MESSAGE);
@@ -162,21 +179,26 @@ public class PregledUpdate extends JFrame {
 					
 					StatusPregleda status = (StatusPregleda) cbStatusPregleda.getSelectedItem();
 					
-					if(pregled == null){ 	//DODAVANJE:
-						pregled = new Pregledi(ident, termin, opis, lekar, pacijent, soba, status);
-						domZdravlja.dodajPreglede(pregled);
-					}else{		//IZMENA
-						pregled.setIdent(ident);
-						pregled.setZatrazenDatum(termin);
-						pregled.setOpis(opis);
-						pregled.setLekar(lekar);
-						pregled.setPacijent(pacijent);
-						pregled.setSoba(soba);
-						pregled.setStatus(status);
+					
+						if (lekarIsNotBusy(termin, lekar)) {
+							if(pregled == null){ 	//DODAVANJE:
+								pregled = new Pregledi(ident, termin, opis, lekar, pacijent, soba, status);
+								domZdravlja.dodajPreglede(pregled);
+							}else{		//IZMENA
+								pregled.setIdent(ident);
+								pregled.setZatrazenDatum(termin);
+								pregled.setOpis(opis);
+								pregled.setLekar(lekar);
+								pregled.setPacijent(pacijent);
+								pregled.setSoba(soba);
+								pregled.setStatus(status);
+							}
+							domZdravlja.snimiPreglede();
+							PregledUpdate.this.dispose();
+							PregledUpdate.this.setVisible(false);
+						} else {
+							JOptionPane.showMessageDialog(null, "Izabrani lekar je zauzet za unet pocetak pregleda","Obaveštenje",JOptionPane.WARNING_MESSAGE);
 					}
-					domZdravlja.snimiPreglede();
-					PregledUpdate.this.dispose();
-					PregledUpdate.this.setVisible(false);	
 				}
 			}
 		});
@@ -188,5 +210,35 @@ public class PregledUpdate extends JFrame {
 				PregledUpdate.this.setVisible(false);
 			}
 		});
+	}
+	
+	private boolean lekarIsNotBusy(GregorianCalendar pocetakPregleda, Lekar izabraniLekar) {
+				Date pocetak = pocetakPregleda.getTime();
+	
+				long longPocetak = pocetak.getTime();
+				
+				boolean uListiPregleda = false;	
+				
+				for (Pregledi pregled : domZdravlja.getPreglede()) {
+					if (pregled.getStatus() == StatusPregleda.Zakazan) { 
+						if (pregled.getLekar().getKorisnickoime().equals(izabraniLekar.getKorisnickoime())) {
+							uListiPregleda = true; 
+							
+							if (pocetak.before(pregled.getZatrazenDate())){
+								long pregledPocetak = pregled.getZatrazenDate().getTime();
+								long difference = (pregledPocetak - longPocetak) / CONVERSION_FACTOR_MINUTES;
+								if (difference <= EXAM_DISTANCE ) return false;	
+							}
+							if(pocetak.after(pregled.getZatrazenDate())) {
+								long pregledPocetak = pregled.getZatrazenDate().getTime();
+								long difference = (longPocetak - pregledPocetak) / CONVERSION_FACTOR_MINUTES;
+								if(difference <= EXAM_DISTANCE) return false;
+							}
+							
+						}
+					}	
+				}
+				if (!uListiPregleda) return true;
+				return true;
 	}
 }

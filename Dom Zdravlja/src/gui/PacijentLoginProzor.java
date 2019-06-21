@@ -68,7 +68,7 @@ public class PacijentLoginProzor extends JFrame {
 					if(pacijent !=null) {
 						PacijentLoginProzor.this.setVisible(false);
 						PacijentLoginProzor.this.dispose();
-						PacijentMeni pacijentMeni = new PacijentMeni(domZdravlja, prijavljen.getKorisnickoime(), password, password);
+						PacijentMeni pacijentMeni = new PacijentMeni(domZdravlja, prijavljen.getKorisnickoime());
 						pacijentMeni.setVisible(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Pogrešni login podaci!");

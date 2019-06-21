@@ -45,6 +45,10 @@ public class Pregledi {
 	public void setZatrazenDatum(GregorianCalendar zatrazenDatum) {
 		this.zatrazenDatum = zatrazenDatum;
 	}
+	
+	public Date getZatrazenDate() {
+		return this.getZatrazenDatum().getTime();
+	}
 
 	public String getOpis() {
 		return opis;
