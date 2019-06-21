@@ -104,13 +104,16 @@ public class PacijentPreglediUpdate extends JFrame {
 		txtZatrazenDatum.setText(String.valueOf(domZdravlja.VremeUString(this.pregled.getZatrazenDatum(),domZdravlja.getFormatTermina())));
 		txtZatrazenDatum.setEnabled(false);
 		txtOpis.setText(pregled.getOpis());
+		txtOpis.setEnabled(false);
 		cbLekar.setSelectedItem(this.pregled.getLekar().getKorisnickoime());
 		cbLekar.setEnabled(false);
 		cbPacijent.setSelectedItem(this.pregled.getPacijent().getKorisnickoime());
 		cbPacijent.setEnabled(false);
 		txtSoba.setText(String.valueOf(pregled.getSoba()));
+		txtSoba.setEnabled(false);
 		if (pregled.getStatus()==StatusPregleda.Zatrazen){
 			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
+			txtOpis.setEnabled(true);
 		}
 		if(pregled.getStatus()==StatusPregleda.Zakazan) {
 			cbStatusPregleda.removeItem(StatusPregleda.Zatrazen);
@@ -121,13 +124,11 @@ public class PacijentPreglediUpdate extends JFrame {
 			cbStatusPregleda.removeItem(StatusPregleda.Zatrazen);
 			cbStatusPregleda.addItem(StatusPregleda.Zavrsen);
 			cbStatusPregleda.setEnabled(false);
-			txtOpis.setEnabled(false);
 		}
 		if(pregled.getStatus()==StatusPregleda.Otkazan){
 			cbStatusPregleda.removeItem(StatusPregleda.Zatrazen);
 			cbStatusPregleda.addItem(StatusPregleda.Otkazan);
 			cbStatusPregleda.setEnabled(false);
-			txtOpis.setEnabled(false);
 		}
 		btnOk1.setVisible(false);
 		btnOk1.setEnabled(false);

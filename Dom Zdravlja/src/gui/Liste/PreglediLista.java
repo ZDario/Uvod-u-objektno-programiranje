@@ -156,6 +156,8 @@ public class PreglediLista extends JFrame {
 							txtRacun.setText(String.valueOf(racun));
 						} else {
 							txtRacun.setText("Pregled mora biti zavrsen da bi ste dobili racun!");
+							JOptionPane.showMessageDialog(null, "Pregled mora biti zavrsen da bi ste dobili racun!", "Greska",
+									JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				}
